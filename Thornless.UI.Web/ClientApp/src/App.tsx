@@ -4,7 +4,7 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import Counter from './components/Counter';
 import FetchData from './components/FetchData';
-import CharacterNameHome from './characternames/components/Home';
+import CharacterNameHome from './components/CharacterNames/Home';
 
 import './custom.css'
 
