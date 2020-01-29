@@ -22,9 +22,10 @@ namespace Thornless.Domain.Services
             return ancestries;
         }
 
-        public Task ListAncestryOptions(string ancestryCodeName)
+        public Task<AncestryDetailsModel> ListAncestryOptions(string ancestryCode)
         {
-            throw new System.NotImplementedException();
+            var ancestry = _generatorRepo.GetAncestry(ancestryCode);
+            return ancestry;            
         }
     }
 }

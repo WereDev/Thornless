@@ -2,12 +2,10 @@ import { Action, Reducer } from 'redux';
 import { AppThunkAction } from '.';
 import * as Common from '../shared';
 
-// -----------------
-// STATE - This defines the type of data maintained in the Redux store.
-
-export interface CharacterNameState extends Common.LoadingState {
+export interface CharacterNameState {
     ancestries: Ancestry[];
-
+    ancestryOptions: AncestryOption[];
+    loadState: Common.LoadingStates;
 }
 
 export interface Ancestry {
@@ -16,9 +14,11 @@ export interface Ancestry {
     sortOrder: number
 }
 
-// -----------------
-// ACTIONS - These are serializable (hence replayable) descriptions of state transitions.
-// They do not themselves have any side-effects; they just describe something that is going to happen.
+export interface AncestryOption {
+    code: string,
+    name: string,
+    sortOrder: number
+}
 
 interface RequestAncestriesAction {
     type: 'REQUEST_ANCESTRIES';
@@ -29,20 +29,26 @@ interface ReceiveAncestriesAction {
     ancestries: Ancestry[];
 }
 
-// Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
-// declared type strings (and not any other arbitrary string).
-type KnownAction = RequestAncestriesAction | ReceiveAncestriesAction;
+interface RequestAncestryOptionsAction {
+    type: 'REQUEST_ANCESTRY_OPTIONS';
+}
 
-// ----------------
-// ACTION CREATORS - These are functions exposed to UI components that will trigger a state transition.
-// They don't directly mutate state, but they can have external side-effects (such as loading data).
+interface ReceiveAncestryOptionsAction {
+    type: 'RECEIVE_ANCESTRY_OPTIONS';
+    ancestryOptions: AncestryOption[];
+}
+
+type KnownAction = RequestAncestriesAction
+                    | ReceiveAncestriesAction
+                    | RequestAncestryOptionsAction
+                    | ReceiveAncestryOptionsAction;
 
 export const actionCreators = {
     requestAncestries: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
         // Only load data if it's something we don't already have (and are not already loading)
         const appState = getState();
 
-        if (appState && appState.characterNames?.loadState == Common.LoadingStates.IsNotStarted) {
+        if (appState && appState.characterNames?.loadState === Common.LoadingStates.IsNotStarted) {
             fetch(`/api/charactername`)
                 .then(response => response.json() as Promise<Common.ApiResponse<Ancestry[]>>)
                 .then(data => {
@@ -51,30 +57,51 @@ export const actionCreators = {
 
             dispatch({ type: 'REQUEST_ANCESTRIES' });
         }
+    },
+    requestAncestryOption: (selectedAncestry: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+
+        fetch(`/api/charactername/` + selectedAncestry)
+            .then(response => response.json() as Promise<Common.ApiResponse<AncestryOption[]>>)
+            .then(data => {
+                dispatch({ type: 'RECEIVE_ANCESTRY_OPTIONS', ancestryOptions: data.data });
+            });
+
+        dispatch({ type: 'REQUEST_ANCESTRIES' });
     }
 };
 
-const unloadedState: CharacterNameState = { ancestries: [], loadState: Common.LoadingStates.IsNotStarted };
+const unloadedState: CharacterNameState =
+{
+    ancestries: [],
+    ancestryOptions: [],
+    loadState: Common.LoadingStates.IsNotStarted
+};
 
 export const reducer: Reducer<CharacterNameState> = (state: CharacterNameState | undefined, incomingAction: Action): CharacterNameState => {
     if (state === undefined) {
         return unloadedState;
     }
 
+    let currentState = JSON.parse(JSON.stringify(state)) as CharacterNameState;
     const action = incomingAction as KnownAction;
     switch (action.type) {
         case 'REQUEST_ANCESTRIES':
-            return {
-                ancestries: state.ancestries,
-                loadState: Common.LoadingStates.IsLoading
-            };
+            currentState.loadState = Common.LoadingStates.IsLoading;
+            break;
         case 'RECEIVE_ANCESTRIES':
-            
-            return {
-                ancestries: action.ancestries,
-                loadState: Common.LoadingStates.IsLoaded
-            }
-        default:
-            return unloadedState;
+            currentState.loadState = Common.LoadingStates.IsLoaded;
+            currentState.ancestries = action.ancestries;
+            currentState.ancestryOptions = [];
+            break;
+        case 'REQUEST_ANCESTRY_OPTIONS':
+            currentState.loadState = Common.LoadingStates.IsLoading;
+            currentState.ancestryOptions = [];
+            break;
+        case 'RECEIVE_ANCESTRY_OPTIONS':
+            currentState.loadState = Common.LoadingStates.IsLoaded;
+            currentState.ancestryOptions = action.ancestryOptions;
+            break;
     }
+    return currentState;
 };

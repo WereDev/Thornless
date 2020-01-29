@@ -18,6 +18,11 @@ namespace Thornless.UI.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureLogging((context, logging) =>
+                {
+                    if (context.HostingEnvironment.IsDevelopment())
+                        logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

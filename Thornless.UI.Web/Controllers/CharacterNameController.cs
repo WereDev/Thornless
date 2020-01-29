@@ -27,10 +27,21 @@ namespace Thornless.UI.Web.Controllers
         public async Task<IActionResult> ListAncestries()
         {
             var ancestries = await _characterNameGenerator.ListAncestries();
-            if (ancestries == null || ancestries.Count() == 0)
+            if (ancestries?.Any() != true)
                 return NotFound();
 
             var mapped = _mapper.Map<AncestryViewModel[]>(ancestries);
+            return ApiResponse(mapped);
+        }
+
+        [HttpGet("{ancestryCode}")]
+        public async Task<IActionResult> GetAncestryOptions(string ancestryCode)
+        {
+            var ancestry = await _characterNameGenerator.ListAncestryOptions(ancestryCode);
+            if (ancestry == null)
+                return NotFound();
+
+            var mapped = _mapper.Map<AncestryDetailViewModel>(ancestry);
             return ApiResponse(mapped);
         }
     }

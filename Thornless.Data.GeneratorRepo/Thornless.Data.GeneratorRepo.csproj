@@ -25,10 +25,6 @@
 
   <PropertyGroup>
     <CodeAnalysisRuleSet>$(MSBuildProjectDirectory)\..\stylecop.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup> 
-
-  <ItemGroup>
-    <None Update="./data/generator.sqlite" CopyToOutputDirectory="Always" />
-  </ItemGroup>
+  </PropertyGroup>
 
 </Project>

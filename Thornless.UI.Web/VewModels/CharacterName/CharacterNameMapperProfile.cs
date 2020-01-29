@@ -8,6 +8,10 @@ namespace Thornless.UI.Web.ViewModels.CharacterName
         public CharacterNameMapperProfile()
         {
             CreateMap<AncestryModel, AncestryViewModel>();
+
+            CreateMap<AncestryDetailsModel, AncestryDetailViewModel>();
+
+            CreateMap<AncestryOptionsModel, AncestryDetailViewModel.AncestryOption>();
         }
     }
 }

@@ -21,6 +21,11 @@ class FetchData extends React.Component<AncestryProps> {
     this.ensureDataFetched();
   }
 
+  public ancestrySelected(event: React.FormEvent<HTMLSelectElement>) {
+    var selectedValue = event.currentTarget.value;
+    this.props.requestAncestryOption(selectedValue);
+  }
+
   public render() {
     return (
       <React.Fragment>
@@ -36,9 +41,9 @@ class FetchData extends React.Component<AncestryProps> {
   private renderAncestyDropdown() {
     return (
       <div>
-        <select>
+        <select onChange={ e => this.ancestrySelected(e) }>
           { this.props?.ancestries.map((ancestry: AncestryStore.Ancestry) =>
-            <option value={ancestry.code}>{ancestry.name}</option>
+            <option key={ancestry.code} value={ancestry.code}>{ancestry.name}</option>
           )}
         </select>
       </div>

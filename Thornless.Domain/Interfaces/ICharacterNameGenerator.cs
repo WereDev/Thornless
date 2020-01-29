@@ -7,6 +7,6 @@ namespace Thornless.Domain.Interfaces
     {
         Task<AncestryModel[]> ListAncestries();
         
-        Task ListAncestryOptions(string ancestryCodeName);
+        Task<AncestryDetailsModel> ListAncestryOptions(string ancestryCode);
     }
 }
