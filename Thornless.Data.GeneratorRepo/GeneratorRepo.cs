@@ -28,6 +28,8 @@ namespace Thornless.Data.GeneratorRepo
         {
             var ancestry = await _generatorContext.CharacterAncestries
                                             .Include(x => x.Options)
+                                                .ThenInclude(x => x.SegmentGroups)
+                                            .Include(x => x.NameParts)
                                             .FirstOrDefaultAsync(x => x.Code == ancestryCode);
 
             var mapped = _mapper.Map<AncestryDetailsModel>(ancestry);
