@@ -101,7 +101,7 @@ namespace Thornless.Domain.Tests.Services
             var ancestryDetails = CreateAncestryDetailsModel();
             foreach (var option in ancestryDetails.Options)
             {
-                option.NamePartSeperators = new string [] { seperatorText };
+                option.NamePartSeperators = new string[] { seperatorText };
                 option.SeperatorChancePercentage = 100;
             }
 
@@ -119,7 +119,7 @@ namespace Thornless.Domain.Tests.Services
             var ancestryDetails = CreateAncestryDetailsModel();
             foreach (var option in ancestryDetails.Options)
             {
-                option.NamePartSeperators = new string [] { seperatorText };
+                option.NamePartSeperators = new string[] { seperatorText };
                 option.SeperatorChancePercentage = 100;
             }
 
