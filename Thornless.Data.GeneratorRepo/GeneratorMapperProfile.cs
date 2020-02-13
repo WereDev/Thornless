@@ -14,14 +14,14 @@ namespace Thornless.Data.GeneratorRepo
             CreateMap<CharacterAncestryDto, AncestryDetailsModel>()
                 .IncludeBase<CharacterAncestryDto, AncestryModel>();
 
-            CreateMap<CharacterAncestryNamePartDto, AncestryNamePartModel>()
+            CreateMap<CharacterAncestryNamePartDto, AncestryDetailsModel.AncestryNamePartModel>()
                 .ForMember(dest => dest.NameMeanings, opts => opts.MapFrom(src => ParseJsonArray(src.NameMeaningsJson)))
                 .ForMember(dest => dest.NameParts, opts => opts.MapFrom(src => ParseJsonArray(src.NamePartsJson)));
 
-            CreateMap<CharacterAncestryOptionDto, AncestryOptionsModel>()
+            CreateMap<CharacterAncestryOptionDto, AncestryDetailsModel.AncestryOptionsModel>()
                 .ForMember(dest => dest.NamePartSeperators, opts => opts.MapFrom(src => ParseJsonArray(src.NamePartSeperatorJson)));
 
-            CreateMap<CharacterAncestrySegmentGroupDto, AncestrySegmentGroupModel>()
+            CreateMap<CharacterAncestrySegmentGroupDto, AncestryDetailsModel.AncestrySegmentGroupModel>()
                 .ForMember(dest => dest.NameSegmentCodes, opts => opts.MapFrom(src => ParseJsonArray(src.NameSegmentCodesJson)));
         }
 

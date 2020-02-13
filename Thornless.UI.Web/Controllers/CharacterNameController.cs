@@ -39,9 +39,21 @@ namespace Thornless.UI.Web.Controllers
         {
             var ancestry = await _characterNameGenerator.ListAncestryOptions(ancestryCode);
             if (ancestry == null)
-                return NotFound();
+                return NotFound("Invalid ancestry code.");
 
             var mapped = _mapper.Map<AncestryDetailViewModel>(ancestry);
+            return ApiResponse(mapped);
+        }
+
+        [HttpGet("{ancestryCode}/{ancestryOptionCode}")]
+        public async Task<IActionResult> GenerateNames(string ancestryCode, string ancestryOptionCode, [FromQuery] int count = 1)
+        {
+            var names = await _characterNameGenerator.GenerateNames(ancestryCode, ancestryOptionCode, count);
+
+            if (names == null)
+                return NotFound($"No combination found for {ancestryCode} and {ancestryOptionCode}.");
+
+            var mapped = _mapper.Map<CharacterNameViewModel[]>(names);
             return ApiResponse(mapped);
         }
     }

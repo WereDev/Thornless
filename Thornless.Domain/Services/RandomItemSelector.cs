@@ -42,7 +42,7 @@ namespace Thornless.Domain.Services
 
             var randomValue = _randomNumberGenerator.GetRandomInteger(items.Length);
 
-            return items[randomValue - 1];
+            return items[randomValue];
         }
     }
 }

@@ -8,10 +8,10 @@ namespace Thornless.Domain.Tests.Services
     [TestFixture]
     public class RandomItemGeneratorTests
     {
-        [TestCase(1, 0)]
-        [TestCase(2, 1)]
-        [TestCase(3, 2)]
-        public void GetRandomItem_WithCollection_ReturnsCorrectItem(int randomNumber, int expectedItem)
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(2)]
+        public void GetRandomItem_WithCollection_ReturnsCorrectItem(int randomNumber)
         {
             var mockRandomNumberGenerator = new Mock<IRandomNumberGenerator>();
             mockRandomNumberGenerator.Setup(x => x.GetRandomInteger(3)).Returns(randomNumber);
@@ -25,7 +25,7 @@ namespace Thornless.Domain.Tests.Services
             };
 
             var item = randomItemSelector.GetRandomItem<WeightedItem>(items);
-            Assert.AreEqual(items[expectedItem], item);
+            Assert.AreEqual(items[randomNumber], item);
             mockRandomNumberGenerator.Verify(x => x.GetRandomInteger(3), Times.Once);
             mockRandomNumberGenerator.VerifyNoOtherCalls();
         }

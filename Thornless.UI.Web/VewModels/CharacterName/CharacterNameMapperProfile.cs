@@ -11,7 +11,11 @@ namespace Thornless.UI.Web.ViewModels.CharacterName
 
             CreateMap<AncestryDetailsModel, AncestryDetailViewModel>();
 
-            CreateMap<AncestryOptionsModel, AncestryDetailViewModel.AncestryOption>();
+            CreateMap<AncestryDetailsModel.AncestryOptionsModel, AncestryDetailViewModel.AncestryOption>();
+
+            CreateMap<CharacterNameResultModel, CharacterNameViewModel>();
+
+            CreateMap<CharacterNameResultModel.CharacterNameDefinition, CharacterNameViewModel.CharacterNameDefinition>();
         }
     }
 }
