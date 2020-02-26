@@ -24,7 +24,7 @@ namespace Thornless.Data.GeneratorRepo
             {
                 var assembly = Assembly.GetExecutingAssembly().Location;
                 var folder = Path.GetDirectoryName(assembly);
-                var dbFile = Path.Combine(folder, "generator.sqlite");
+                var dbFile = Path.Combine(folder, "data/generator.sqlite");
                 optionsBuilder.UseSqlite($"DataSource={dbFile}");
             }
         }

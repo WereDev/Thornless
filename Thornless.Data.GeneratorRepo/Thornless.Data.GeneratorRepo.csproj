@@ -20,6 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="data\generator.sqlite" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="$(MSBuildProjectDirectory)\..\stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
