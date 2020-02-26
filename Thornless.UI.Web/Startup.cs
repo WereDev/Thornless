@@ -49,7 +49,11 @@ namespace Thornless.UI.Web
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+            });
+
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
