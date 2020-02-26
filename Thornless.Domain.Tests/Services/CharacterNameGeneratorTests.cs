@@ -97,7 +97,7 @@ namespace Thornless.Domain.Tests.Services
         [Test]
         public async Task GenerateNames_WhenValid_ConfirmHasNameSeperator()
         {
-            var seperatorText = "seperator_text";
+            var seperatorText = "seperator_Text"; // odd casing is to match ToTitleCase result.
             var ancestryDetails = CreateAncestryDetailsModel();
             foreach (var option in ancestryDetails.Options)
             {
