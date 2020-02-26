@@ -46,7 +46,7 @@ namespace Thornless.UI.Web.Controllers
         }
 
         [HttpGet("{ancestryCode}/{ancestryOptionCode}")]
-        public async Task<IActionResult> GenerateNames(string ancestryCode, string ancestryOptionCode, [FromQuery] int count = 1)
+        public async Task<IActionResult> GenerateNames(string ancestryCode, string ancestryOptionCode, [FromQuery] int count = 5)
         {
             var names = await _characterNameGenerator.GenerateNames(ancestryCode, ancestryOptionCode, count);
 

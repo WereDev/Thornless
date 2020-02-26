@@ -25,11 +25,17 @@ class FetchData extends React.Component<AncestryProps> {
     this.props.requestAncestryOption(selectedValue);
   }
 
+  public optionSelected(event: React.FormEvent<HTMLSelectElement>) {
+    var selectedOption = event.currentTarget.value;
+    this.props.requestCharacterNames(this.props.ancestryOptions?.code ?? "", selectedOption);
+  }
+
   public render() {
     return (
       <React.Fragment>
         {this.renderAncestyDropdown()}
         {this.renderOptionsDropdown()}
+        {this.renderName()}
       </React.Fragment>
     );
   }
@@ -53,11 +59,28 @@ class FetchData extends React.Component<AncestryProps> {
   private renderOptionsDropdown() {
     return (
       <div>
-        <select>
+        <select onChange={ e => this.optionSelected(e) }>
           { this.props?.ancestryOptions?.options.sort((a, b) => a.sortOrder - b.sortOrder).map((option: AncestryStore.NameCodeSort) =>
             <option key={option.code} value={option.code}>{option.name}</option>
           )}
         </select>
+      </div>
+    )
+  }
+
+  private renderName() {
+    return (
+      <div>
+        { this.props?.characterNames.map((name : AncestryStore.CharacterName) =>
+          <div>
+            <h3>{name.name}</h3>
+            <div>
+              { name.definitions.map((definition : AncestryStore.CharacterNameDefinition) =>
+                <div><b>{ definition.namePart}:</b> { definition.meanings.join(", ") }</div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     )
   }
