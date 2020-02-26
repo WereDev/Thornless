@@ -10,7 +10,7 @@ steps:
     version: '3.1.100'
     installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- script: dotnet restore Thornless.UI.Web/Thornless.UI.Web.csproj
+- script: dotnet restore Thornless.sln
   displayName: "Restore .Net dependencies"
 
 - script: dotnet build Thornless.sln
