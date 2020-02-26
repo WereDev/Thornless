@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { ApplicationState } from '../../store';
 import * as AncestryStore from '../../store/CharacterNames';
 
@@ -30,6 +29,7 @@ class FetchData extends React.Component<AncestryProps> {
     return (
       <React.Fragment>
         {this.renderAncestyDropdown()}
+        {this.renderOptionsDropdown()}
       </React.Fragment>
     );
   }
@@ -42,12 +42,24 @@ class FetchData extends React.Component<AncestryProps> {
     return (
       <div>
         <select onChange={ e => this.ancestrySelected(e) }>
-          { this.props?.ancestries.map((ancestry: AncestryStore.Ancestry) =>
+          { this.props?.ancestries.sort((a, b) => a.sortOrder - b.sortOrder).map((ancestry: AncestryStore.Ancestry) =>
             <option key={ancestry.code} value={ancestry.code}>{ancestry.name}</option>
           )}
         </select>
       </div>
     );
+  }
+
+  private renderOptionsDropdown() {
+    return (
+      <div>
+        <select>
+          { this.props?.ancestryOptions?.options.sort((a, b) => a.sortOrder - b.sortOrder).map((option: AncestryStore.NameCodeSort) =>
+            <option key={option.code} value={option.code}>{option.name}</option>
+          )}
+        </select>
+      </div>
+    )
   }
 }
 
