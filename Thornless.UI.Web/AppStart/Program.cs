@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Thornless.UI.Web
+namespace Thornless.UI.Web.AppStart
 {
     public class Program
     {
