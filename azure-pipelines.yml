@@ -1,41 +1,49 @@
 pool:
   vmImage: 'ubuntu-latest' # other options: 'macOS-10.13', 'vs2017-win2016'
 
-steps:
+- job: Build
+  steps:
 
-- task: UseDotNet@2
-  displayName: 'Install .net core 3.0 (preview)'
-  inputs:
-    packageType: sdk
-    version: '3.1.100'
-    installationPath: $(Agent.ToolsDirectory)/dotnet
+  - task: UseDotNet@2
+    displayName: 'Install .net core 3.0 (preview)'
+    inputs:
+      packageType: sdk
+      version: '3.1.100'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
 
-- script: dotnet restore Thornless.sln
-  displayName: "Restore .Net dependencies"
+  - script: dotnet restore Thornless.sln
+    displayName: "Restore .Net dependencies"
 
-- script: dotnet build Thornless.sln
-  displayName: "Build"
+  - script: dotnet build Thornless.sln
+    displayName: "Build"
 
-- script: dotnet test Thornless.sln
-  displayName: "Unit Tests"
+  - script: dotnet test Thornless.sln
+    displayName: "Unit Tests"
 
-- script: dotnet publish Thornless.UI.Web/Thornless.UI.Web.csproj --output $(Build.ArtifactStagingDirectory) --configuration Release
-  displayName: "Publish"
+- job: Release
+  dependsOn: Build
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  steps:
 
-- task: CopyFilesOverSSH@0
-  inputs:
-    sshEndpoint: 'Hostwinds SSH'
-    sourceFolder: '$(Build.ArtifactStagingDirectory)'
-    contents: '**'
-    targetFolder: '/var/www/thornless.weredev.com.new'
-    cleanTargetFolder: true
-    failOnEmptySource: true
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  - task: CmdLine@2
+    inputs:
+      script: |
+        sed -i 's/{{Sumologic.Url}}/$(SUMOLOGIC_URL)/g' Thornless.UI.Web/appsettings.json
 
-- task: SSH@0
-  inputs:
-    sshEndpoint: 'Hostwinds SSH'
-    runOptions: 'commands'
-    commands: 'cd /var/cicd && ./update-site.sh thornless.weredev.com'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  - script: dotnet publish Thornless.UI.Web/Thornless.UI.Web.csproj --output $(Build.ArtifactStagingDirectory) --configuration Release
+    displayName: "Publish"
+
+  - task: CopyFilesOverSSH@0
+    inputs:
+      sshEndpoint: 'Hostwinds SSH'
+      sourceFolder: '$(Build.ArtifactStagingDirectory)'
+      contents: '**'
+      targetFolder: '/var/www/thornless.weredev.com.new'
+      cleanTargetFolder: true
+      failOnEmptySource: true
+
+  - task: SSH@0
+    inputs:
+      sshEndpoint: 'Hostwinds SSH'
+      runOptions: 'commands'
+      commands: 'cd /var/cicd && ./update-site.sh thornless.weredev.com'
