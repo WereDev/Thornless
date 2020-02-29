@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SumoLogic.Logging.AspNetCore;
 
 namespace Thornless.UI.Web.AppStart
 {
@@ -16,7 +18,15 @@ namespace Thornless.UI.Web.AppStart
                 .ConfigureLogging((context, logging) =>
                 {
                     if (context.HostingEnvironment.IsDevelopment())
+                    {
                         logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
+                        logging.AddConsole();
+                    }
+                    else
+                    {  
+                        var sumoLogicOptions = context.Configuration.GetSection("Logging:SumoLogic").Get<LoggerOptions>();
+                        logging.AddSumoLogic(sumoLogicOptions);
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
