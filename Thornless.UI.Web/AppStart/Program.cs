@@ -19,7 +19,7 @@ namespace Thornless.UI.Web.AppStart
                 {
                     if (context.HostingEnvironment.IsDevelopment())
                     {
-                        logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
+                        // logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Information);
                         logging.AddConsole();
                     }
                     else
