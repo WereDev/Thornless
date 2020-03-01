@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -6,10 +5,6 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Thornless.Data.GeneratorRepo;
-using Thornless.Domain.Interfaces;
-using Thornless.Domain.Services;
-using Thornless.UI.Web.ViewModels.CharacterName;
 
 namespace Thornless.UI.Web.AppStart
 {

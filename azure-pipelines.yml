@@ -50,4 +50,4 @@ jobs:
       inputs:
         sshEndpoint: 'Hostwinds SSH'
         runOptions: 'commands'
-        commands: 'cd /var/cicd && ./update-site.sh thornless.weredev.com'
+        commands: 'chmod 777 /var/www/thornless.weredev.com.new/data && cd /var/cicd && ./update-site.sh thornless.weredev.com'
