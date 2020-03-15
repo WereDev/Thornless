@@ -16,9 +16,16 @@ namespace Thornless.Domain.Models.CharacterNames
 
         public class CharacterNameDefinition
         {
+            public string NamePartCode { get; set; }
+            
             public string NamePart { get; set; }
 
             public string[] Meanings { get; set; }
+
+            public override string ToString()
+            {
+                return NamePart;
+            }
         }
     }
 }

@@ -63,7 +63,7 @@ namespace Thornless.Domain.Services
             {
                 AncestryCode = ancestry.Code,
                 AncestryName = ancestry.Name,
-                Definitions = nameParts.Where(x => x.Meanings.Any()).ToArray(),
+                Definitions = nameParts.Where(x => x.Meanings?.Any() == true).ToArray(),
                 Name = name,
                 OptionCode = selectedOption.Code,
                 OptionName = selectedOption.Name,
@@ -83,6 +83,7 @@ namespace Thornless.Domain.Services
                 var namePart = new CharacterNameResultModel.CharacterNameDefinition
                 {
                     Meanings = randomSegment.NameMeanings,
+                    NamePartCode = randomSegment.NameSegmentCode,
                     NamePart = _randomItemSelector.GetRandomItem(randomSegment.NameParts),
                 };
                 selectedParts.Add(namePart);
@@ -105,17 +106,22 @@ namespace Thornless.Domain.Services
 
                 if (i < nameParts.Length - 1)
                 {
+                    var nextPart = nameParts[i + 1];
+
+                    if (AncestryLiterals.Literals.Contains(namePart.NamePartCode)
+                        || AncestryLiterals.Literals.Contains(nextPart.NamePartCode))
+                        continue;
+
                     var randomNumber = _randomNumberGenerator.GetRandomInteger(100) + 1;
                     if (randomNumber > adjustedChance)
                         continue;
 
                     var seperator = _randomItemSelector.GetRandomItem(seperators);
-                    if (namePart.NamePart.EndsWith(seperator, true, null))
+                    if (namePart.NamePart.EndsWith(seperator, true, null)
+                        || nextPart.NamePart.StartsWith(seperator, true, null))
                         continue;
 
-                    var nextPart = nameParts[i + 1];
-                    if (!nextPart.NamePart.StartsWith(seperator, true, null))
-                        name.Append(seperator);
+                    name.Append(seperator);
                 }
             }
 
