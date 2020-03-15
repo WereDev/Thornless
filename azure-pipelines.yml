@@ -16,25 +16,27 @@ jobs:
       displayName: "Restore .Net dependencies"
 
     - script: dotnet build Thornless.sln
-      displayName: "Build"
+      displayName: "Compile"
 
     - script: dotnet test Thornless.sln
       displayName: "Unit Tests"
 
-  - job: Release
+  - job: Deploy
     dependsOn: Build
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     steps:
 
     - task: CmdLine@2
+      displayName: "Replace Appsettings"
       inputs:
         script: |
-          sed -i 's/{{Sumologic.Url}}/$(SUMOLOGIC_URL)/g' Thornless.UI.Web/appsettings.json
+          sed -i 's,{{Sumologic.Url}},$(SUMOLOGIC_URL),g' Thornless.UI.Web/appsettings.json
 
     - script: dotnet publish Thornless.UI.Web/Thornless.UI.Web.csproj --output $(Build.ArtifactStagingDirectory) --configuration Release
       displayName: "Publish"
 
     - task: CopyFilesOverSSH@0
+      displayName: "Copy files to Server"
       inputs:
         sshEndpoint: 'Hostwinds SSH'
         sourceFolder: '$(Build.ArtifactStagingDirectory)'
@@ -44,7 +46,8 @@ jobs:
         failOnEmptySource: true
 
     - task: SSH@0
+      displayName: "Update Site"
       inputs:
         sshEndpoint: 'Hostwinds SSH'
         runOptions: 'commands'
-        commands: 'cd /var/cicd && ./update-site.sh thornless.weredev.com'
+        commands: 'chmod 777 /var/www/thornless.weredev.com.new/data && cd /var/cicd && ./update-site.sh thornless.weredev.com'
