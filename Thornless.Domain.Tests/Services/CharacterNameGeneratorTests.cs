@@ -109,7 +109,7 @@ namespace Thornless.Domain.Tests.Services
 
             var result = await generator.GenerateNames(ancestryDetails.Code, ancestryDetails.Options.First().Code, 1);
 
-            Assert.True(result.First().Name.Contains(seperatorText));            
+            Assert.True(result.First().Name.Contains(seperatorText));
         }
 
         [Test]
@@ -128,9 +128,82 @@ namespace Thornless.Domain.Tests.Services
             var result = await generator.GenerateNames(ancestryDetails.Code, ancestryDetails.Options.First().Code, 1);
 
             var name = result.First().Name;
-            
+
             var textInfo = new CultureInfo("en-US", false).TextInfo;
-            Assert.AreEqual(textInfo.ToTitleCase(name.ToLower()), name);          
+            Assert.AreEqual(textInfo.ToTitleCase(name.ToLower()), name);
+        }
+
+        [TestCase("a")]
+        [TestCase("ab")]
+        public async Task GenerateNames_WhenHasSeperator_SeperatorDoesntMatchSegments(string seperator)
+        {
+            var firstChar = seperator.First();
+            var lastChar = seperator.Last();
+
+            var ancestryDetails = CreateAncestryDetailsModel(1);
+
+            foreach (var option in ancestryDetails.Options)
+            {
+                option.NamePartSeperators = new string[] { seperator };
+                option.SeperatorChancePercentage = 100;
+            }
+
+            foreach (var namePart in ancestryDetails.NameParts)
+            {
+                namePart.NameParts = new string[] { $"{firstChar}namePart{lastChar}" };
+            }
+
+            var generator = CreateCharacterNameGenerator(ancestryDetails);
+
+            var result = await generator.GenerateNames(ancestryDetails.Code, ancestryDetails.Options.First().Code, 1);
+
+            var name = result.First().Name;
+            Assert.False(name.Contains($"{firstChar}{firstChar}{firstChar}"));
+            Assert.False(name.Contains($"{lastChar}{lastChar}{lastChar}"));
+        }
+
+        [TestCase(AncestryLiterals.Apostrophe)]
+        [TestCase(AncestryLiterals.Empty)]
+        [TestCase(AncestryLiterals.Space)]
+        public async Task GenerateNames_WithLiteral_SkipsSeperators(string literal)
+        {
+            var seperatorText = "seperator_text";
+
+            var ancestryDetails = CreateAncestryDetailsModel(1);
+
+            foreach (var option in ancestryDetails.Options)
+            {
+                option.NamePartSeperators = new string[] { seperatorText };
+                option.SeperatorChancePercentage = 100;
+                option.SegmentGroups = new AncestryDetailsModel.AncestrySegmentGroupModel[]
+                {
+                    new AncestryDetailsModel.AncestrySegmentGroupModel()
+                    {
+                        NameSegmentCodes = new string[]
+                        {
+                            option.SegmentGroups.First().NameSegmentCodes.First(),
+                            literal,
+                            option.SegmentGroups.First().NameSegmentCodes.First(),
+                        },
+                    },
+                };
+            }
+
+            var nameParts = ancestryDetails.NameParts.ToList();
+            nameParts.Add(new AncestryDetailsModel.AncestryNamePartModel
+            {
+                NameParts = new string[] { literal },
+                NameSegmentCode = literal,
+            });
+            ancestryDetails.NameParts = nameParts.ToArray();
+
+            var generator = CreateCharacterNameGenerator(ancestryDetails);
+
+            var result = await generator.GenerateNames(ancestryDetails.Code, ancestryDetails.Options.First().Code, 1);
+
+            var name = result.First().Name;
+            Assert.True(name.Contains(literal, StringComparison.CurrentCultureIgnoreCase));
+            Assert.False(name.Contains(seperatorText, StringComparison.CurrentCultureIgnoreCase));
         }
 
         private CharacterNameGenerator CreateCharacterNameGenerator(AncestryModel[] ancestryModels)
@@ -168,18 +241,26 @@ namespace Thornless.Domain.Tests.Services
             };
         }
 
-        private AncestryDetailsModel CreateAncestryDetailsModel()
+        private AncestryDetailsModel CreateAncestryDetailsModel(int numberOfDetails = 3)
         {
             var detailsModel = _fixture.Build<AncestryDetailsModel>()
+                                        .With(x => x.Options, _fixture.Build<AncestryDetailsModel.AncestryOptionsModel>()
+                                                                                                 .CreateMany(numberOfDetails)
+                                                                                                 .ToArray())
                                         .Create();
 
             var nameParts = new List<AncestryDetailsModel.AncestryNamePartModel>();
-            foreach (var detailOption in detailsModel.Options)
+            for (var i = 0; i < detailsModel.Options.Length; i++)
             {
-                foreach (var segmentGroup in detailOption.SegmentGroups)
+                var detailOption = detailsModel.Options[0];
+                detailOption.Code = $"detailOption{i}";
+
+                for (var j = 0; j < detailOption.SegmentGroups.Length; j++)
                 {
-                    foreach (var code in segmentGroup.NameSegmentCodes)
+                    var segmentGroup = detailOption.SegmentGroups[j];
+                    for (var k = 0; k < segmentGroup.NameSegmentCodes.Length; k++)
                     {
+                        var code = segmentGroup.NameSegmentCodes[k];
                         nameParts.AddRange(_fixture.Build<AncestryDetailsModel.AncestryNamePartModel>()
                                                   .With(x => x.NameSegmentCode, code)
                                                   .CreateMany());
