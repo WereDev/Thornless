@@ -16,7 +16,7 @@ export interface CharacterNameState {
 }
 
 export interface Ancestry extends NameCodeSort {
-    
+
 }
 
 export interface AncestryOption {
@@ -69,11 +69,11 @@ interface ReceiveCharacterNamesAction {
 }
 
 type KnownAction = RequestAncestriesAction
-                    | ReceiveAncestriesAction
-                    | RequestAncestryOptionsAction
-                    | ReceiveAncestryOptionsAction
-                    | RequestCharacterNamesAction
-                    | ReceiveCharacterNamesAction;
+    | ReceiveAncestriesAction
+    | RequestAncestryOptionsAction
+    | ReceiveAncestryOptionsAction
+    | RequestCharacterNamesAction
+    | ReceiveCharacterNamesAction;
 
 export const actionCreators = {
     requestAncestries: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -91,20 +91,24 @@ export const actionCreators = {
         }
     },
     requestAncestryOption: (selectedAncestry: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        fetch(`/api/charactername/` + selectedAncestry)
-            .then(response => response.json() as Promise<Common.ApiResponse<AncestryOption>>)
-            .then(data => {
-                dispatch({ type: 'RECEIVE_ANCESTRY_OPTIONS', ancestryOptions: data.data });
-            });
+        if (selectedAncestry !== "") {
+            fetch(`/api/charactername/` + selectedAncestry)
+                .then(response => response.json() as Promise<Common.ApiResponse<AncestryOption>>)
+                .then(data => {
+                    dispatch({ type: 'RECEIVE_ANCESTRY_OPTIONS', ancestryOptions: data.data });
+                });
+        }
 
-        dispatch({ type: 'REQUEST_ANCESTRIES' });
+        dispatch({ type: 'REQUEST_ANCESTRY_OPTIONS' });
     },
     requestCharacterNames: (selectedAncestry: string, selectedOption: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        fetch(`/api/charactername/` + selectedAncestry + `/` + selectedOption)
-            .then(response => response.json() as Promise<Common.ApiResponse<CharacterName[]>>)
-            .then(data => {
-                dispatch({ type: 'RECEIVE_CHARACTER_NAMES', characterNames: data.data });
-            });
+        if (selectedAncestry !== "" && selectedOption !== "") {
+            fetch(`/api/charactername/` + selectedAncestry + `/` + selectedOption)
+                .then(response => response.json() as Promise<Common.ApiResponse<CharacterName[]>>)
+                .then(data => {
+                    dispatch({ type: 'RECEIVE_CHARACTER_NAMES', characterNames: data.data });
+                });
+        }
     }
 };
 
@@ -129,8 +133,8 @@ export const reducer: Reducer<CharacterNameState> = (state: CharacterNameState |
             break;
         case 'RECEIVE_ANCESTRIES':
             currentState.loadState = Common.LoadingStates.IsLoaded;
+            action.ancestries.unshift({ code: "", name: "-- Select Ancestry --", sortOrder: -1 })
             currentState.ancestries = action.ancestries;
-            currentState.ancestryOptions = null;
             break;
         case 'REQUEST_ANCESTRY_OPTIONS':
             currentState.loadState = Common.LoadingStates.IsLoading;
@@ -138,6 +142,7 @@ export const reducer: Reducer<CharacterNameState> = (state: CharacterNameState |
             break;
         case 'RECEIVE_ANCESTRY_OPTIONS':
             currentState.loadState = Common.LoadingStates.IsLoaded;
+            action.ancestryOptions.options.unshift({ code: "", name: "-- Select Option --", sortOrder: -1 })
             currentState.ancestryOptions = action.ancestryOptions;
             break;
         case 'REQUEST_CHARACTER_NAMES':
@@ -145,7 +150,7 @@ export const reducer: Reducer<CharacterNameState> = (state: CharacterNameState |
             break;
         case 'RECEIVE_CHARACTER_NAMES':
             currentState.loadState = Common.LoadingStates.IsLoaded;
-            currentState.characterNames = currentState.characterNames.concat(action.characterNames);
+            currentState.characterNames = action.characterNames.concat(currentState.characterNames);
             break;
     }
     return currentState;
