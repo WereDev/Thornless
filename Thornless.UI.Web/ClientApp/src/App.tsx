@@ -4,7 +4,7 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import CharacterNameHome from './components/CharacterNames/Home';
 
-import './custom.css'
+import './App.css'
 
 export default () => (
     <Layout>
