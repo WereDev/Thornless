@@ -1,0 +1,15 @@
+@import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
+
+@import "shared/theme.scss";
+
+body {
+  margin: 0px;
+  padding: 0px;
+  background-color: $background-color;
+  color: $foreground-color;
+  font-size: 1em;
+}
+
+.text-center {
+  text-align: center;
+}

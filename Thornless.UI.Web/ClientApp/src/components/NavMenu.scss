@@ -1,0 +1,27 @@
+﻿@import "../shared/theme.scss";
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+html { font-size: 14px; }
+
+@media (min-width: 768px) {
+    html { font-size: 16px; }
+}
+
+.app-title {
+    & img {
+        filter: $link-svg-filter;
+        width: 200%;
+    }
+}
+
+.navbar-nav {
+    & img {
+        filter: $link-svg-filter;
+        margin-left: 15px;
+    }
+}
