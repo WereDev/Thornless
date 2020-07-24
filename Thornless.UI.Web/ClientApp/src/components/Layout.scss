@@ -1,0 +1,22 @@
+@import "../shared/theme.scss";
+
+#main {
+  margin: 0px auto;
+}
+
+a {
+  color: $link-color;
+  fill: $link-color;
+  &:hover {
+    color: $hilite-color;
+    fill: $hilite-color;
+  }
+}
+
+.app-title {
+  padding: 0px !important;
+  & svg {
+    fill: $link-color;
+    width: 100%;
+  }
+}
