@@ -10,7 +10,10 @@ export interface NameCodeSort {
 
 export interface CharacterNameState {
     ancestries: Ancestry[];
+    selectedAncestry: string | null;
     ancestryOptions: AncestryOption | null;
+    selectedAncestryOption: string | null;
+    numberToGenerate: number;
     characterNames: CharacterName[];
     loadState: Common.LoadingStates;
 }
@@ -90,24 +93,45 @@ export const actionCreators = {
             dispatch({ type: 'REQUEST_ANCESTRIES' });
         }
     },
-    requestAncestryOption: (selectedAncestry: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        if (selectedAncestry !== "") {
-            fetch(`/api/charactername/` + selectedAncestry)
+    requestAncestryOptions: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+
+        if (!Common.Shared.IsNullOrEmpty(appState.characterNames?.selectedAncestry)) {
+            fetch(`/api/charactername/` + appState.characterNames?.selectedAncestry)
                 .then(response => response.json() as Promise<Common.ApiResponse<AncestryOption>>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_ANCESTRY_OPTIONS', ancestryOptions: data.data });
                 });
+            dispatch({ type: 'REQUEST_ANCESTRY_OPTIONS' });
         }
-
-        dispatch({ type: 'REQUEST_ANCESTRY_OPTIONS' });
     },
-    requestCharacterNames: (selectedAncestry: string, selectedOption: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        if (selectedAncestry !== "" && selectedOption !== "") {
+
+    requestCharacterNames: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+        const selectedAncestry = appState.characterNames?.selectedAncestry;
+        const selectedOption = appState.characterNames?.selectedAncestryOption;
+
+        if (!Common.Shared.IsNullOrEmpty(selectedAncestry) && !Common.Shared.IsNullOrEmpty(selectedOption)) {
             fetch(`/api/charactername/` + selectedAncestry + `/` + selectedOption)
                 .then(response => response.json() as Promise<Common.ApiResponse<CharacterName[]>>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_CHARACTER_NAMES', characterNames: data.data });
                 });
+            dispatch({ type: 'REQUEST_CHARACTER_NAMES' });
+        }
+    },
+
+    setSelectedAncestry: (selectedAncestry: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+        if (appState.characterNames && selectedAncestry !== "") {
+            appState.characterNames.selectedAncestry = selectedAncestry;
+        }
+    },
+    setSelectedOption: (selectedOption: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+
+        if (appState.characterNames) {
+            appState.characterNames.selectedAncestryOption = selectedOption;
         }
     }
 };
@@ -115,8 +139,11 @@ export const actionCreators = {
 const unloadedState: CharacterNameState =
 {
     ancestries: [],
+    selectedAncestry: "",
     ancestryOptions: null,
+    selectedAncestryOption: "",
     characterNames: [],
+    numberToGenerate: 5,
     loadState: Common.LoadingStates.IsNotStarted
 };
 
@@ -133,7 +160,14 @@ export const reducer: Reducer<CharacterNameState> = (state: CharacterNameState |
             break;
         case 'RECEIVE_ANCESTRIES':
             currentState.loadState = Common.LoadingStates.IsLoaded;
-            action.ancestries.unshift({ code: "", name: "-- Select Ancestry --", sortOrder: -1 })
+            if (action.ancestries.length > 1)
+            {
+                action.ancestries.unshift({ code: "", name: "-- Select Ancestry --", sortOrder: -1 });
+            }
+            else
+            {
+                currentState.selectedAncestry = action.ancestries[0].code;
+            }
             currentState.ancestries = action.ancestries;
             break;
         case 'REQUEST_ANCESTRY_OPTIONS':
@@ -142,7 +176,14 @@ export const reducer: Reducer<CharacterNameState> = (state: CharacterNameState |
             break;
         case 'RECEIVE_ANCESTRY_OPTIONS':
             currentState.loadState = Common.LoadingStates.IsLoaded;
-            action.ancestryOptions.options.unshift({ code: "", name: "-- Select Option --", sortOrder: -1 })
+            if (action.ancestryOptions.options.length > 1)
+            {
+                action.ancestryOptions.options.unshift({ code: "", name: "-- Select Option --", sortOrder: -1 });
+            }
+            else
+            {
+                currentState.selectedAncestryOption = action.ancestryOptions.options[0].code;
+            }
             currentState.ancestryOptions = action.ancestryOptions;
             break;
         case 'REQUEST_CHARACTER_NAMES':

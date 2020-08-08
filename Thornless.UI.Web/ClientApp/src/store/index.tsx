@@ -1,4 +1,4 @@
-import * as AncestryList from './CharacterNames';
+import * as AncestryList from './characterNameService';
 
 // The top-level state object
 export interface ApplicationState {
