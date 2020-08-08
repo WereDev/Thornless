@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
-import * as AncestryStore from '../../store/CharacterNames';
+import * as AncestryStore from '../../store/characterNameService';
 
 // At runtime, Redux will merge together...
 type AncestryProps =
@@ -22,12 +22,17 @@ class FetchData extends React.Component<AncestryProps> {
 
   public ancestrySelected(event: React.FormEvent<HTMLSelectElement>) {
     var selectedValue = event.currentTarget.value;
-    this.props.requestAncestryOption(selectedValue);
+    this.props.setSelectedAncestry(selectedValue);
+    this.props.requestAncestryOptions();
   }
 
   public optionSelected(event: React.FormEvent<HTMLSelectElement>) {
     var selectedOption = event.currentTarget.value;
-    this.props.requestCharacterNames(this.props.ancestryOptions?.code ?? "", selectedOption);
+    this.props.setSelectedOption(selectedOption);
+  }
+
+  public requestCharacterNames(event: React.FormEvent<HTMLButtonElement>) {
+    this.props.requestCharacterNames();
   }
 
   public render() {
@@ -35,6 +40,7 @@ class FetchData extends React.Component<AncestryProps> {
       <React.Fragment>
         {this.renderAncestyDropdown()}
         {this.renderOptionsDropdown()}
+        {this.renderSubmitButton()}
         {this.renderName()}
       </React.Fragment>
     );
@@ -65,7 +71,15 @@ class FetchData extends React.Component<AncestryProps> {
           )}
         </select>
       </div>
-    )
+    );
+  }
+
+  private renderSubmitButton() {
+    return (
+      <div>
+        <button type="button" onClick={e => this.requestCharacterNames(e) }>Generate Name</button>
+      </div>
+    );
   }
 
   private renderName() {
@@ -74,6 +88,7 @@ class FetchData extends React.Component<AncestryProps> {
         { this.props?.characterNames.map((name : AncestryStore.CharacterName) =>
           <div>
             <h3>{name.name}</h3>
+            <h4>{name.ancestryName} | {name.optionName}</h4>
             <div>
               { name.definitions.map((definition : AncestryStore.CharacterNameDefinition) =>
                 <div><b>{ definition.namePart}:</b> { definition.meanings.join(", ") }</div>
@@ -82,7 +97,7 @@ class FetchData extends React.Component<AncestryProps> {
           </div>
         )}
       </div>
-    )
+    );
   }
 }
 
