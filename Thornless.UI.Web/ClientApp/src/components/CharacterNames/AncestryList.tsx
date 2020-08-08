@@ -88,6 +88,7 @@ class FetchData extends React.Component<AncestryProps> {
         { this.props?.characterNames.map((name : AncestryStore.CharacterName) =>
           <div>
             <h3>{name.name}</h3>
+            <h4>{name.ancestryName} | {name.optionName}</h4>
             <div>
               { name.definitions.map((definition : AncestryStore.CharacterNameDefinition) =>
                 <div><b>{ definition.namePart}:</b> { definition.meanings.join(", ") }</div>
