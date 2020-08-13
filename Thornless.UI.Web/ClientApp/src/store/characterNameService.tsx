@@ -110,9 +110,10 @@ export const actionCreators = {
         const appState = getState();
         const selectedAncestry = appState.characterNames?.selectedAncestry;
         const selectedOption = appState.characterNames?.selectedAncestryOption;
+        const numberToGenerate = appState.characterNames?.numberToGenerate;
 
         if (!Common.Shared.IsNullOrEmpty(selectedAncestry) && !Common.Shared.IsNullOrEmpty(selectedOption)) {
-            fetch(`/api/charactername/` + selectedAncestry + `/` + selectedOption)
+            fetch(`/api/charactername/` + selectedAncestry + `/` + selectedOption + "?count=" + numberToGenerate)
                 .then(response => response.json() as Promise<Common.ApiResponse<CharacterName[]>>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_CHARACTER_NAMES', characterNames: data.data });
@@ -132,6 +133,12 @@ export const actionCreators = {
 
         if (appState.characterNames) {
             appState.characterNames.selectedAncestryOption = selectedOption;
+        }
+    },
+    setNameCount: (nameCount: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        const appState = getState();
+        if (appState.characterNames) {
+            appState.characterNames.numberToGenerate = nameCount;
         }
     }
 };

@@ -31,6 +31,11 @@ class FetchData extends React.Component<AncestryProps> {
     this.props.setSelectedOption(selectedOption);
   }
 
+  public setNameCount(event: React.FormEvent<HTMLSelectElement>) {
+    var count = Number(event.currentTarget.value);
+    this.props.setNameCount(count);
+  }
+
   public requestCharacterNames(event: React.FormEvent<HTMLButtonElement>) {
     this.props.requestCharacterNames();
   }
@@ -40,6 +45,7 @@ class FetchData extends React.Component<AncestryProps> {
       <React.Fragment>
         {this.renderAncestyDropdown()}
         {this.renderOptionsDropdown()}
+        {this.renderCountDropdown()}
         {this.renderSubmitButton()}
         {this.renderName()}
       </React.Fragment>
@@ -72,6 +78,25 @@ class FetchData extends React.Component<AncestryProps> {
         </select>
       </div>
     );
+  }
+
+  private renderCountDropdown() {
+    return (
+      <div>
+        <select onChange={ e=> this.setNameCount(e) }>
+          <option selected={ this.props?.numberToGenerate === 1} value="1">1</option>
+          <option selected={ this.props?.numberToGenerate === 2} value="2">2</option>
+          <option selected={ this.props?.numberToGenerate === 3} value="3">3</option>
+          <option selected={ this.props?.numberToGenerate === 4} value="4">4</option>
+          <option selected={ this.props?.numberToGenerate === 5} value="5">5</option>
+          <option selected={ this.props?.numberToGenerate === 6} value="6">6</option>
+          <option selected={ this.props?.numberToGenerate === 7} value="7">7</option>
+          <option selected={ this.props?.numberToGenerate === 8} value="8">8</option>
+          <option selected={ this.props?.numberToGenerate === 9} value="9">9</option>
+          <option selected={ this.props?.numberToGenerate === 10} value="10">10</option>
+        </select>
+      </div>
+    )
   }
 
   private renderSubmitButton() {
