@@ -4,7 +4,7 @@ import AncestryList from './AncestryList';
 import { Route } from 'react-router';
 
 const Home = () => (
-    <div>
+    <div className="w-100">
         <h1>Character Names</h1>
         <p>Start by selecting your character's ancestry.</p>
         <Route path='/:home?' component={AncestryList} />
