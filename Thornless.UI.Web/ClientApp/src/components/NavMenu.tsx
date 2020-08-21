@@ -13,7 +13,9 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
             <header>
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom mb-3" light>
                     <Container>
-                        <div className="app-title"><img src="/images/thornless.svg" alt="Thornless" /></div>
+                        <div className="app-title">
+                            <a href="/">Thornless</a>
+                        </div>
                         <NavbarToggler onClick={this.toggle} className="mr-2"/>
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
                             <ul className="navbar-nav flex-grow">

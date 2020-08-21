@@ -1,4 +1,20 @@
 $background-color: #231C0C;
-$foreground-color: #49412c;
+$foreground-color: #b0a18e;
 $hilite-color: #b0a18e;
 $link-color: #97743a;
+$title-color: #97743a;
+
+$body-font: 'FertigoPro', serif;
+$title-font: 'TomeoftheUnknown', serif;
+
+@font-face {
+    font-family: 'FertigoPro';
+    src:  url('/fonts/FertigoPro.woff2') format('woff2'),
+          url('/fonts/FertigoPro.woff') format('woff');
+  }
+
+@font-face {
+    font-family: 'TomeoftheUnknown';
+    src:  url('/fonts/TomeoftheUnknown.woff2') format('woff2'),
+          url('/fonts/TomeoftheUnknown.woff') format('woff');
+}

@@ -15,8 +15,9 @@ a {
 
 .app-title {
   padding: 0px !important;
-  & svg {
-    fill: $link-color;
-    width: 100%;
+  font-size: 5rem;
+  font-family: $title-font;
+  & a {
+    text-decoration: none !important;
   }
 }

@@ -8,6 +8,16 @@ body {
   background-color: $background-color;
   color: $foreground-color;
   font-size: 1em;
+  font-family: $body-font;
+}
+
+button {
+  font-family: $body-font;
+}
+
+h1, h2 {
+  font-family: $title-font;
+  color: $link-color;
 }
 
 .text-center {

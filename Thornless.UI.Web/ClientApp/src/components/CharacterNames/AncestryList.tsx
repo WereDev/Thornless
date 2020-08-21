@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
 import * as AncestryStore from '../../store/characterNameService';
 
+import './AncestryList.scss';
+
 // At runtime, Redux will merge together...
 type AncestryProps =
   AncestryStore.CharacterNameState
@@ -55,7 +57,7 @@ class FetchData extends React.Component<AncestryProps> {
       <div>
         <h2>Ancestry</h2>
         {this.props?.ancestries.sort((a, b) => a.sortOrder - b.sortOrder).map((ancestry: AncestryStore.Ancestry) =>
-          <div>
+          <div className="select-button">
             <button value={ancestry.code} onClick={e => this.ancestrySelected(e)}>{ancestry.name}</button>
           </div>
         )}
@@ -68,7 +70,7 @@ class FetchData extends React.Component<AncestryProps> {
       <div>
         <h2>Option</h2>
         {this.props?.ancestryOptions?.options.sort((a, b) => a.sortOrder - b.sortOrder).map((option: AncestryStore.NameCodeSort) =>
-          <div>
+          <div className="select-button">
             <button value={option.code} onClick={e => this.optionSelected(e)}>{option.name}</button>
           </div>
         )}
@@ -79,6 +81,7 @@ class FetchData extends React.Component<AncestryProps> {
   private renderName() {
     return (
       <div>
+        <h2>Names</h2>
         {this.props?.characterNames.map((name: AncestryStore.CharacterName) =>
           <div>
             <h3>{name.name}</h3>

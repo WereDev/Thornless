@@ -15,9 +15,9 @@ const Home = () => (
       and other role-playing or fantasy settings.
     </p>
     <div className="row">
-      <div className="col-md-4 col-12 mt-4 text-center">
+      <div className="col-md-4 col-12 mt-4 nav-link-1">
         <NavLink tag={Link} to="/characternames">
-          <CharactersSvg />
+          Characters
         </NavLink>
       </div>
       <div className="col-md-4 col-12 mt-4">

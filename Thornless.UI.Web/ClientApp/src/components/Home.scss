@@ -1,9 +1,17 @@
-a.nav-link {
-  & svg {
-    width: 50%;
+@import '../shared/theme.scss';
+
+.nav-link-1 {
+  font-family: $title-font;
+  font-size: 2rem;
+  & a {
+    text-decoration: none;
   }
 }
 
 .w-100 {
   width: 100%;
+}
+
+.w-90 {
+  width: 90%;
 }
