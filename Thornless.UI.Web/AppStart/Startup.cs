@@ -1,10 +1,13 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace Thornless.UI.Web.AppStart
 {
@@ -34,14 +37,38 @@ namespace Thornless.UI.Web.AppStart
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.ConfigureExceptionHandler();
-            
+
             app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
             });
 
-            app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseSpaStaticFiles(new StaticFileOptions()
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    if (ctx.Context.Request.Path.Value.ToLower().EndsWith("index.html"))
+                    {
+                        // Do not cache explicit `index.html`. See also: `DefaultPageStaticFileOptions` below for implicit "/index.html"
+                        var headers = ctx.Context.Response.GetTypedHeaders();
+                        headers.CacheControl = new CacheControlHeaderValue
+                        {
+                            Public = true,
+                            MaxAge = TimeSpan.FromDays(0),
+                        };
+                    }
+                    else
+                    {
+                        // Cache all static resources for 1 year (versioned filenames)
+                        var headers = ctx.Context.Response.GetTypedHeaders();
+                        headers.CacheControl = new CacheControlHeaderValue
+                        {
+                            Public = true,
+                            MaxAge = TimeSpan.FromDays(365),
+                        };
+                    }
+                },
+            });
 
             app.UseRouting();
 
@@ -59,6 +86,22 @@ namespace Thornless.UI.Web.AppStart
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
+                }
+                else
+                {
+                    spa.Options.DefaultPageStaticFileOptions = new StaticFileOptions()
+                    {
+                        OnPrepareResponse = ctx =>
+                        {
+                            // Do not cache implicit `/index.html`.  See also: `UseSpaStaticFiles` above
+                            var headers = ctx.Context.Response.GetTypedHeaders();
+                            headers.CacheControl = new CacheControlHeaderValue
+                            {
+                                Public = true,
+                                MaxAge = TimeSpan.FromDays(0),
+                            };
+                        },
+                    };
                 }
             });
         }
