@@ -55,17 +55,21 @@ namespace Thornless.UI.Web.AppStart
                         {
                             Public = true,
                             MaxAge = TimeSpan.FromDays(0),
+                            NoCache = true,
+                            NoStore = true,
                         };
+
                     }
                     else
                     {
-                        // Cache all static resources for 1 year (versioned filenames)
+                        // Cache all static resources for 30 days (versioned filenames)
                         var headers = ctx.Context.Response.GetTypedHeaders();
                         headers.CacheControl = new CacheControlHeaderValue
                         {
                             Public = true,
-                            MaxAge = TimeSpan.FromDays(365),
+                            MaxAge = TimeSpan.FromDays(30),
                         };
+                        headers.Expires = DateTimeOffset.UtcNow.AddDays(30);
                     }
                 },
             });
@@ -99,6 +103,8 @@ namespace Thornless.UI.Web.AppStart
                             {
                                 Public = true,
                                 MaxAge = TimeSpan.FromDays(0),
+                                NoCache = true,
+                                NoStore = true,
                             };
                         },
                     };
