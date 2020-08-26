@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { SanitizedHtml } from '../../shared';
 import { ApplicationState } from '../../store';
 import * as AncestryStore from '../../store/characterNameService';
 
@@ -69,11 +70,18 @@ class FetchData extends React.Component<AncestryProps> {
     return (
       <div>
         <h2>Option</h2>
+        <div>
+          <h3>{this.props?.ancestryOptions?.name}</h3>
+          <SanitizedHtml html={this.props?.ancestryOptions?.flavorHtml ?? ''} allowedTags={['i']} className="mb-4" />
+        </div>
         {this.props?.ancestryOptions?.options.sort((a, b) => a.sortOrder - b.sortOrder).map((option: AncestryStore.NameCodeSort) =>
           <div className="select-button">
             <button value={option.code} onClick={e => this.optionSelected(e)}>{option.name}</button>
           </div>
         )}
+        <div>
+          <p>{this.props?.ancestryOptions?.copyright}</p>
+        </div>
       </div>
     );
   }

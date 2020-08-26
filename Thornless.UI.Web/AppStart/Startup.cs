@@ -43,36 +43,44 @@ namespace Thornless.UI.Web.AppStart
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
             });
 
-            app.UseSpaStaticFiles(new StaticFileOptions()
+            app.UseStaticFiles();
+            
+            if (env.IsDevelopment())
             {
-                OnPrepareResponse = ctx =>
+                app.UseSpaStaticFiles();
+            }
+            else
+            {
+                app.UseSpaStaticFiles(new StaticFileOptions()
                 {
-                    if (ctx.Context.Request.Path.Value.ToLower().EndsWith("index.html"))
+                    OnPrepareResponse = ctx =>
                     {
-                        // Do not cache explicit `index.html`. See also: `DefaultPageStaticFileOptions` below for implicit "/index.html"
-                        var headers = ctx.Context.Response.GetTypedHeaders();
-                        headers.CacheControl = new CacheControlHeaderValue
+                        if (ctx.Context.Request.Path.Value.ToLower().EndsWith("index.html"))
                         {
-                            Public = true,
-                            MaxAge = TimeSpan.FromDays(0),
-                            NoCache = true,
-                            NoStore = true,
-                        };
-
-                    }
-                    else
-                    {
-                        // Cache all static resources for 30 days (versioned filenames)
-                        var headers = ctx.Context.Response.GetTypedHeaders();
-                        headers.CacheControl = new CacheControlHeaderValue
+                            // Do not cache explicit `index.html`. See also: `DefaultPageStaticFileOptions` below for implicit "/index.html"
+                            var headers = ctx.Context.Response.GetTypedHeaders();
+                            headers.CacheControl = new CacheControlHeaderValue
+                            {
+                                Public = true,
+                                MaxAge = TimeSpan.FromDays(0),
+                                NoCache = true,
+                                NoStore = true,
+                            };
+                        }
+                        else
                         {
-                            Public = true,
-                            MaxAge = TimeSpan.FromDays(30),
-                        };
-                        headers.Expires = DateTimeOffset.UtcNow.AddDays(30);
-                    }
-                },
-            });
+                            // Cache all static resources for 30 days (versioned filenames)
+                            var headers = ctx.Context.Response.GetTypedHeaders();
+                            headers.CacheControl = new CacheControlHeaderValue
+                            {
+                                Public = true,
+                                MaxAge = TimeSpan.FromDays(30),
+                            };
+                            headers.Expires = DateTimeOffset.UtcNow.AddDays(30);
+                        }
+                    },
+                });
+            }
 
             app.UseRouting();
 
