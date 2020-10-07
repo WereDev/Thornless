@@ -38,10 +38,10 @@ class FetchData extends React.Component<AncestryProps> {
   public render() {
     return (
       <React.Fragment>
-        <div className="row">
-          <div className="col-lg-4 col-12">{this.renderAncestyDropdown()}</div>
-          <div className="col-lg-4 col-12">{this.renderOptionsDropdown()}</div>
-          <div className="col-lg-4 col-12">{this.renderName()}</div>
+        <div id="ancestry-row">
+          <div className="col-lg-4 col-12 col-content">{this.renderAncestyDropdown()}</div>
+          <div className="col-lg-4 col-12 col-content">{this.renderOptionsDropdown()}</div>
+          <div className="col-lg-4 col-12 col-content">{this.renderName()}</div>
         </div>
         {/* {this.renderCountDropdown()}
         {this.renderSubmitButton()} */}
@@ -72,7 +72,6 @@ class FetchData extends React.Component<AncestryProps> {
         <h2>Option</h2>
         <div>
           <h3>{this.props?.ancestryOptions?.name}</h3>
-          <SanitizedHtml html={this.props?.ancestryOptions?.flavorHtml ?? ''} allowedTags={['i']} className="mb-4" />
         </div>
         {this.props?.ancestryOptions?.options.sort((a, b) => a.sortOrder - b.sortOrder).map((option: AncestryStore.NameCodeSort) =>
           <div className="select-button">

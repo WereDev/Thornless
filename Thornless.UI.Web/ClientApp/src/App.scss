@@ -2,6 +2,10 @@
 
 @import "shared/theme.scss";
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0px;
   padding: 0px;
@@ -9,17 +13,31 @@ body {
   color: $foreground-color;
   font-size: 1em;
   font-family: $body-font;
+  justify-content: center;
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
 }
 
 button {
   font-family: $body-font;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-family: $title-font;
   color: $link-color;
 }
 
 .text-center {
   text-align: center;
+}
+
+.flex-magic {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
