@@ -10,6 +10,14 @@
     overflow-y: auto;
     height: 100%;
   }
+
+  & .col-content:first-child {
+    padding-left: 0px;
+  }
+
+  & .col-content:last-child {
+    padding-right: 0px;
+  }
 }
 
 .select-button {

@@ -7,7 +7,7 @@ import './Layout.scss'
 export default (props: { children?: React.ReactNode }) => (
     <React.Fragment>
         <div id="main" className="container container-fluid flex-magic">
-            <div id="header" className="row flex-shrink-0">
+            <div id="header" className="row">
                 <div id="title">
                     <a href="/">Thornless</a>
                 </div>
@@ -17,7 +17,7 @@ export default (props: { children?: React.ReactNode }) => (
             <div id="content" className="row flex-magic">
                 {props.children}
             </div>
-            <div id="footer" className="row flex-shrink-0 pb-1">
+            <div id="footer" className="row pb-1">
                 Copyright &copy; 2020
             </div>
         </div>

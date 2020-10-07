@@ -1,9 +1,6 @@
 @import "../shared/theme.scss";
 
-#main {
-  height: 100%;
-  overflow: hidden;
-  
+#main {  
   & #header {
     & #title {
       padding: 0px !important;
@@ -13,20 +10,11 @@
   
     flex-shrink: 0;
   }
-  
-  & #content {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: row;
-    overflow: hidden;
-  }
 
   & #footer {
     flex-shrink: 0;
   }
 }
-
-
 
 a {
   color: $link-color;
