@@ -1,5 +1,4 @@
 @import "../node_modules/bootstrap/scss/bootstrap-grid.scss";
-
 @import "shared/theme.scss";
 
 html {
@@ -37,6 +36,10 @@ h2 {
 
 .text-center {
   text-align: center;
+}
+
+.text-right {
+  text-align: right;
 }
 
 .flex-magic {

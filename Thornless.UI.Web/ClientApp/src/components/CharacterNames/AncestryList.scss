@@ -1,24 +1,53 @@
 @import "../../shared/theme.scss";
 
-#ancestry-row {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
-
-  & .col-content {
-    overflow-y: auto;
+@media (min-width: 990px)
+{
+  #ancestry-row {
     height: 100%;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+
+    & .col-content {
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    & .col-content:first-child {
+      padding-left: 0px;
+    }
+
+    & .col-content:last-child {
+      padding-right: 0px;
+    }
   }
 
-  & .col-content:first-child {
-    padding-left: 0px;
-  }
-
-  & .col-content:last-child {
-    padding-right: 0px;
+  .toTopLink {
+    display: none;
   }
 }
+
+@media (max-width: 990px)
+{
+  #ancestry-row {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding-bottom: 40px;
+
+    & .col-content {
+      flex: 0 0 auto;
+    }
+  }
+
+  .toTopLink {
+    border: transparent;
+    background: transparent;
+    color: $foreground-color;
+
+  }
+}
+
 
 .select-button {
   text-align: center;
