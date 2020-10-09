@@ -143,7 +143,7 @@ class FetchData extends React.Component<AncestryProps> {
             </button>
           </div>
         </div>
-        <div>
+        <div className="col-content">
           {this.props?.characterNames.map((name: AncestryStore.CharacterName) =>
             <div key={name.name}>
               <h3>{name.name}</h3>
