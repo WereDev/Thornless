@@ -1,8 +1,3 @@
-export {default as BuildingsSvg} from './buildings.svg';
-export {default as CharactersSvg} from './characters.svg';
-export {default as Home} from './home.svg';
-export {default as Settlements} from './settlements.svg';
-export {default as ThornlessSvg} from './thornless.svg';
 export {default as Shared} from './shared';
 export {default as SanitizedHtml} from './ReactSanitizedHtml';
 

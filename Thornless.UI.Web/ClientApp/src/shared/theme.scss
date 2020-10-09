@@ -5,7 +5,7 @@ $link-color: #97743a;
 $title-color: #97743a;
 
 $body-font: 'FertigoPro', serif;
-$title-font: 'TomeoftheUnknown', serif;
+$title-font: 'TomeOfTheUnknown', serif;
 
 @font-face {
     font-family: 'FertigoPro';
@@ -14,7 +14,7 @@ $title-font: 'TomeoftheUnknown', serif;
   }
 
 @font-face {
-    font-family: 'TomeoftheUnknown';
-    src:  url('/fonts/TomeoftheUnknown.woff2') format('woff2'),
-          url('/fonts/TomeoftheUnknown.woff') format('woff');
+    font-family: 'TomeOfTheUnknown';
+    src:  url('/fonts/TomeOfTheUnknown.woff2') format('woff2'),
+          url('/fonts/TomeOfTheUnknown.woff') format('woff');
 }
