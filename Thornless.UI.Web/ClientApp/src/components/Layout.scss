@@ -1,7 +1,19 @@
 @import "../shared/theme.scss";
 
-#main {
-  margin: 0px auto;
+#main {  
+  & #header {
+    & #title {
+      padding: 0px !important;
+      font-size: 5rem;
+      font-family: "TomeOfTheUnknown", serif;
+    }
+  
+    flex-shrink: 0;
+  }
+
+  & #footer {
+    flex-shrink: 0;
+  }
 }
 
 a {
@@ -10,14 +22,5 @@ a {
   &:hover {
     color: $hilite-color;
     fill: $hilite-color;
-  }
-}
-
-.app-title {
-  padding: 0px !important;
-  font-size: 5rem;
-  font-family: $title-font;
-  & a {
-    text-decoration: none !important;
   }
 }
