@@ -32,7 +32,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
             foreach (var namePart in nameParts)
             {
                 Assert.IsTrue(IsValidJson(namePart.NamePartsJson), $"Invalid NamePartsJson in CharacterAncestryNamePart {namePart.Id}.");
-                if (!string.IsNullOrWhiteSpace(namePart.NameMeaningsJson))
+                if (namePart.NameMeaningsJson != null)
                     Assert.IsTrue(IsValidJson(namePart.NameMeaningsJson), $"Invalid NameMeaningsJson in CharacterAncestryNamePart {namePart.Id}.");
             }
         }
