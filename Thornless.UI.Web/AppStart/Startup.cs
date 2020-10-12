@@ -65,6 +65,8 @@ namespace Thornless.UI.Web.AppStart
                                 MaxAge = TimeSpan.FromDays(0),
                                 NoCache = true,
                                 NoStore = true,
+                                MustRevalidate = true,
+                                ProxyRevalidate = true,
                             };
                         }
                         else
@@ -113,6 +115,8 @@ namespace Thornless.UI.Web.AppStart
                                 MaxAge = TimeSpan.FromDays(0),
                                 NoCache = true,
                                 NoStore = true,
+                                MustRevalidate = true,
+                                ProxyRevalidate = true,
                             };
                         },
                     };

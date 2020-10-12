@@ -13,6 +13,8 @@
 
   & #footer {
     flex-shrink: 0;
+    color: $background-color;
+    background-color: $foreground-color;
   }
 }
 
