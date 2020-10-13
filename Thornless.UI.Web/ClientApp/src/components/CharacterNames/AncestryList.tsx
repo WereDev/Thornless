@@ -92,7 +92,7 @@ class FetchData extends React.Component<AncestryProps> {
 
   private renderOptionsDropdown() {
     return (
-      <div ref={this.optionsColumnRef} className="flex-magic">
+      <div ref={this.optionsColumnRef} id="ancestry-options" className="flex-magic">
         <div className="d-flex flex-row">
           <div className="flex-grow-1">
             <h2>Options</h2>
@@ -111,7 +111,7 @@ class FetchData extends React.Component<AncestryProps> {
             <button value={option.code} onClick={e => this.optionSelected(e)}>{option.name}</button>
           </div>
         )}
-        <div>
+        <div className="ancestry-copyright">
           <p>{this.props?.ancestryOptions?.copyright}</p>
         </div>
       </div>
@@ -132,7 +132,7 @@ class FetchData extends React.Component<AncestryProps> {
 
   private renderName() {
     return (
-      <div ref={this.namesColumnRef} className="flex-magic">
+      <div id="ancestry-names" ref={this.namesColumnRef} className="flex-magic">
         <div className="d-flex flex-row">
           <div className="flex-grow-1">
             <h2>Names</h2>
@@ -145,12 +145,13 @@ class FetchData extends React.Component<AncestryProps> {
         </div>
         <div className="col-content">
           {this.props?.characterNames.map((name: AncestryStore.CharacterName) =>
-            <div key={name.name}>
+            <div key={name.name} className="ancestry-name-item">
               <h3>{name.name}</h3>
               <h4>{name.ancestryName} | {name.optionName}</h4>
-              <div>
+              <div className="ancestry-name-part-meanings">
+                <div className="ancestry-name-part-header"><div className="ancestry-name-part">Part: </div><div className="ancestry-name-meaning">Definition</div></div>
                 {name.definitions.map((definition: AncestryStore.CharacterNameDefinition) =>
-                  <div key={name.name + '-' + definition.namePart}><b>{definition.namePart}:</b> {definition.meanings.join(", ")}</div>
+                  <div><div className="ancestry-name-part">{definition.namePart}: </div><div className="ancestry-name-meaning">{definition.meanings.join(", ")}</div></div>
                 )}
               </div>
             </div>

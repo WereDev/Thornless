@@ -47,6 +47,41 @@
   }
 }
 
+#ancestry-options
+{
+  & .ancestry-copyright {
+    font-family: serif;
+    font-size: .8rem;
+  }
+}
+
+#ancestry-names {
+  .ancestry-name-item {
+    & h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0px;
+      color: $title-color;
+    }
+    & h4 {
+      margin-top: 0px;
+      font-size: .8rem;
+    }
+    & .ancestry-name-part-meanings {
+      padding-left: 20px;
+      & .ancestry-name-part-header {
+        background-color: $light-background-color;
+      }
+      & .ancestry-name-part {
+        display: inline-block;
+        font-weight: bold;
+        width: 20%;
+      }
+      & .ancestry-name-meaning {
+        display: inline-block;
+      }
+    }
+  }
+}
 
 .select-button {
   text-align: center;
