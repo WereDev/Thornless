@@ -1,0 +1,9 @@
+@import "../shared/theme.scss";
+
+.nav-link {
+    font-family: $title-font;
+    font-size: 2rem;
+    & a {
+      text-decoration: none;
+    }
+  }
