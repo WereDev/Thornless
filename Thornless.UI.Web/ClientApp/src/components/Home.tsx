@@ -13,12 +13,15 @@ const Home = () => (
       and other role-playing or fantasy settings.
     </p>
     <div className="row m-0">
-      <div className="col-md-4 col-12 mt-4 nav-link-1">
+      <div className="col-md-4 col-12 mt-4 nav-link">
         <NavLink tag={Link} to="/characternames">
           Characters
         </NavLink>
       </div>
-      <div className="col-md-4 col-12 mt-4">
+      <div className="col-md-4 col-12 mt-4 nav-link">
+        <NavLink tag={Link} to="/about">
+          About
+        </NavLink>
       </div>
       <div className="col-md-4 col-12 mt-4">
       </div>

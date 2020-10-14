@@ -15,7 +15,7 @@ export default (props: { children?: React.ReactNode }) => (
             <div id="content" className="row flex-magic">
                 {props.children}
             </div>
-            <div id="footer" className="row pb-1">
+            <div id="footer" className="row p-1">
                 Copyright &copy; 2020
             </div>
         </div>
