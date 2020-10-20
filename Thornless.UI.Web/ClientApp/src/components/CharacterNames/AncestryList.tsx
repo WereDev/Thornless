@@ -149,16 +149,20 @@ class FetchData extends React.Component<AncestryProps> {
               <h3>{name.name}</h3>
               <h4>{name.ancestryName} | {name.optionName}</h4>
               <table className="ancestry-name-part-meanings">
-                <tr className="ancestry-name-part-header">
-                  <th className="ancestry-name-part">Part</th>
-                  <th className="ancestry-name-meaning">Meanings</th>
-                </tr>
-              {name.definitions.map((definition: AncestryStore.CharacterNameDefinition) =>
-                <tr key={name.name + '-' + definition.namePart}>
-                  <td className="ancestry-name-part">{definition.namePart}</td>
-                  <td className="ancestry-name-meaning">{definition.meanings.join(", ")}</td>
-                </tr>
-              )}
+                <thead>
+                  <tr className="ancestry-name-part-header">
+                    <th className="ancestry-name-part">Part</th>
+                    <th className="ancestry-name-meaning">Meanings</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {name.definitions.map((definition: AncestryStore.CharacterNameDefinition) =>
+                    <tr key={name.name + '-' + definition.namePart}>
+                      <td className="ancestry-name-part">{definition.namePart}</td>
+                      <td className="ancestry-name-meaning">{definition.meanings.join(", ")}</td>
+                    </tr>
+                  )}
+                </tbody>
               </table>
             </div>
           )}

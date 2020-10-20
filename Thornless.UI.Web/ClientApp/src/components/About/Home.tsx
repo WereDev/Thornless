@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router';
 
 const Home = () => (
     <div id="container-home" className="container p-0 flex-magic">
@@ -15,8 +14,8 @@ const Home = () => (
                 </p>
                 <p>
                     This idea finally came to fruition in my head when I ran across a series of articles called
-                    "By Any Other Name" by <a href="//en.wikipedia.org/wiki/Owen_K.C._Stephens" target="_blank">Owen K.C. Stephens</a> in
-                    old <a href="//en.wikipedia.org/wiki/Dragon_(magazine)" target="_blank">Dragon</a> magazines. It outlined
+                    "By Any Other Name" by <a href="//en.wikipedia.org/wiki/Owen_K.C._Stephens" target="_blank" rel="noopener noreferrer">Owen K.C. Stephens</a> in
+                    old <a href="//en.wikipedia.org/wiki/Dragon_(magazine)" target="_blank" rel="noopener noreferrer">Dragon</a> magazines. It outlined
                     rules for randomly generating names for some of the major races of D&amp;D.  And then I clame
                     across the article for building names and the whole idea fell into place.
                 </p>
