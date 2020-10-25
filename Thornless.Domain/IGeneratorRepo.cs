@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Thornless.Domain.Models.CharacterNames;
+using Thornless.Domain.CharacterNames.Models;
 
-namespace Thornless.Domain.Interfaces
+namespace Thornless.Domain
 {
     public interface IGeneratorRepo
     {

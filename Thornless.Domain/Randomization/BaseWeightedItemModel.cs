@@ -1,6 +1,4 @@
-using Thornless.Domain.Interfaces;
-
-namespace Thornless.Domain.Models
+namespace Thornless.Domain.Randomization
 {
     public abstract class BaseWeightedItemModel : IWeightedItem
     {

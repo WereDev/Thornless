@@ -1,6 +1,6 @@
-using Thornless.Domain.Interfaces;
+using Thornless.Domain.Randomization;
 
-namespace Thornless.Domain.Tests.Services
+namespace Thornless.Domain.Tests.Randomization
 {
     internal class WeightedItem : IWeightedItem
     {

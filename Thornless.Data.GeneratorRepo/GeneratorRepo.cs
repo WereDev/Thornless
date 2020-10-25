@@ -2,8 +2,8 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Thornless.Domain.Interfaces;
-using Thornless.Domain.Models.CharacterNames;
+using Thornless.Domain;
+using Thornless.Domain.CharacterNames.Models;
 
 namespace Thornless.Data.GeneratorRepo
 {

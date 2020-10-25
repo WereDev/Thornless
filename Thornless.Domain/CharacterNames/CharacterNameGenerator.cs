@@ -4,10 +4,10 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Thornless.Domain.Interfaces;
-using Thornless.Domain.Models.CharacterNames;
+using Thornless.Domain.CharacterNames.Models;
+using Thornless.Domain.Randomization;
 
-namespace Thornless.Domain.Services
+namespace Thornless.Domain.CharacterNames
 {
     public class CharacterNameGenerator : ICharacterNameGenerator
     {

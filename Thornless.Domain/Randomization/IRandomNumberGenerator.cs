@@ -1,4 +1,4 @@
-namespace Thornless.Domain.Interfaces
+namespace Thornless.Domain.Randomization
 {
     public interface IRandomNumberGenerator
     {

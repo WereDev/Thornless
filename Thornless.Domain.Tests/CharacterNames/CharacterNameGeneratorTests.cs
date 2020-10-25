@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using AutoFixture;
 using Moq;
 using NUnit.Framework;
-using Thornless.Domain.Interfaces;
-using Thornless.Domain.Models.CharacterNames;
-using Thornless.Domain.Services;
+using Thornless.Domain.CharacterNames;
+using Thornless.Domain.CharacterNames.Models;
+using Thornless.Domain.Randomization;
 
-namespace Thornless.Domain.Tests.Services
+namespace Thornless.Domain.Tests.CharacterNames
 {
     [TestFixture]
     public class CharacterNameGeneratorTests

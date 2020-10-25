@@ -1,8 +1,9 @@
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Thornless.Data.GeneratorRepo;
-using Thornless.Domain.Interfaces;
-using Thornless.Domain.Services;
+using Thornless.Domain;
+using Thornless.Domain.CharacterNames;
+using Thornless.Domain.Randomization;
 using Thornless.UI.Web.ViewModels.CharacterName;
 
 namespace Thornless.UI.Web.AppStart

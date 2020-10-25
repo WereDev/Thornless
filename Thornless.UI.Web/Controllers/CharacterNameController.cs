@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Thornless.Domain.Interfaces;
+using Thornless.Domain.CharacterNames;
 using Thornless.UI.Web.ViewModels.CharacterName;
 
 namespace Thornless.UI.Web.Controllers

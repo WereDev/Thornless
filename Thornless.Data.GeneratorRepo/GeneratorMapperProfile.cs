@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using AutoMapper;
 using Thornless.Data.GeneratorRepo.DataModels;
-using Thornless.Domain.Models.CharacterNames;
+using Thornless.Domain.CharacterNames.Models;
 
 namespace Thornless.Data.GeneratorRepo
 {

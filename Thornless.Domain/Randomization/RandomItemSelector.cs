@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
-using Thornless.Domain.Interfaces;
 
-namespace Thornless.Domain.Services
+namespace Thornless.Domain.Randomization
 {
     public class RandomItemSelector : IRandomItemSelector
     {

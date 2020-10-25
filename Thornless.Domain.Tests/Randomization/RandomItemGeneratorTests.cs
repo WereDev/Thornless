@@ -1,9 +1,8 @@
 using Moq;
 using NUnit.Framework;
-using Thornless.Domain.Interfaces;
-using Thornless.Domain.Services;
+using Thornless.Domain.Randomization;
 
-namespace Thornless.Domain.Tests.Services
+namespace Thornless.Domain.Tests.Randomization
 {
     [TestFixture]
     public class RandomItemGeneratorTests

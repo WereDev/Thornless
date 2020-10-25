@@ -1,4 +1,4 @@
-namespace Thornless.Domain.Models.CharacterNames
+namespace Thornless.Domain.CharacterNames.Models
 {
     public static class AncestryLiterals
     {

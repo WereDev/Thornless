@@ -1,7 +1,6 @@
 using System;
-using Thornless.Domain.Interfaces;
 
-namespace Thornless.Domain.Services
+namespace Thornless.Domain.Randomization
 {
     public class RandomNumberGenerator : IRandomNumberGenerator
     {
@@ -9,7 +8,7 @@ namespace Thornless.Domain.Services
 
         public RandomNumberGenerator()
         {
-            _random = new Random((Int32)(DateTime.Now.Ticks % Int32.MaxValue));
+            _random = new Random((int)(DateTime.Now.Ticks % int.MaxValue));
         }
 
         public int GetRandomInteger(int maxValue)

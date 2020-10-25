@@ -1,4 +1,6 @@
-namespace Thornless.Domain.Models.CharacterNames
+using Thornless.Domain.Randomization;
+
+namespace Thornless.Domain.CharacterNames.Models
 {
     public class AncestryDetailsModel : AncestryModel
     {
