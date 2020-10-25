@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using AutoMapper;
 using Thornless.Data.GeneratorRepo.DataModels;
+using Thornless.Domain.BuildingNames.Models;
 using Thornless.Domain.CharacterNames.Models;
 
 namespace Thornless.Data.GeneratorRepo
@@ -24,6 +26,18 @@ namespace Thornless.Data.GeneratorRepo
 
             CreateMap<CharacterAncestrySegmentGroupDto, AncestryDetailsModel.AncestrySegmentGroupModel>()
                 .ForMember(dest => dest.NameSegmentCodes, opts => opts.MapFrom(src => ParseJsonArray(src.NameSegmentCodesJson)));
+
+            CreateMap<BuildingTypeDto, BuildingTypeModel>();
+
+            CreateMap<BuildingTypeDto, BuildingTypeDetailsModel>()
+                .IncludeBase<BuildingTypeDto, BuildingTypeModel>()
+                .ForMember(dest => dest.NameFormats, src => src.MapFrom(x => x.NameFormats));
+
+            CreateMap<BuildingNameFormatDto, BuildingTypeDetailsModel.BuildingNameFormatModel>()
+                .ForMember(dest => dest.NameFormatParts, src => src.MapFrom(x => GetNamePartGroups(x.NameFormat)));
+
+            CreateMap<IEnumerable<BuildingNamePartDto>, BuildingNameGroups>()
+                .ForMember(dest => dest.NameParts, src => src.MapFrom(x => ParseBuildingNameParts(x)));
         }
 
         private string[] ParseJsonArray(string s)
@@ -58,6 +72,19 @@ namespace Thornless.Data.GeneratorRepo
             }
 
             return items.ToArray();
+        }
+
+        private Dictionary<string, BuildingNameGroups.NamePartModel[]> ParseBuildingNameParts(IEnumerable<BuildingNamePartDto> nameParts)
+        {
+            var dict = nameParts.GroupBy(x => x.GroupCode)
+                                .ToDictionary(key => key.Key,
+                                                value => value.Select(x => new BuildingNameGroups.NamePartModel
+                                                                            {
+                                                                                NamePart = x.NamePart,
+                                                                                RandomizationWeight = x.RandomizationWeight
+                                                                            })
+                                                                .ToArray());
+            return dict;
         }
     }
 }
