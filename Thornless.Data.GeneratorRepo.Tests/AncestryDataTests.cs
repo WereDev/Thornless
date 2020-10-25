@@ -9,16 +9,17 @@ using Thornless.Data.GeneratorRepo.DataModels;
 namespace Thornless.Data.GeneratorRepo.Tests
 {
     [TestFixture]
-    public class GeneratorDataTests
+    public class AncestryDataTests
     {
         [Test]
-        public void CheckAncestriesForValidData()
+        public async Task CheckAncestriesForValidData()
         {
             var database = new GeneratorContext(new DbContextOptions<GeneratorContext>());
-            var data = database.CharacterAncestries
+            var data = await database.CharacterAncestries
                                 .Include(x => x.Options)
                                     .ThenInclude(x => x.SegmentGroups)
-                                .Include(x => x.NameParts);
+                                .Include(x => x.NameParts)
+                                .ToListAsync();
             
             foreach (var ancestry in data)
             {

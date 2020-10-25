@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.Json;
 using AutoMapper;
 using Thornless.Data.GeneratorRepo.DataModels;
@@ -28,6 +29,35 @@ namespace Thornless.Data.GeneratorRepo
         private string[] ParseJsonArray(string s)
         {
             return JsonSerializer.Deserialize<string[]>(s, null);
+        }
+
+        private string[] GetNamePartGroups(string format)
+        {
+            List<string> items = new List<string>();
+
+            List<char> chars = new List<char>();
+            bool addChars = false;
+            foreach (var c in format)
+            {
+                switch (c)
+                {
+                    case '{':
+                        chars.Clear();
+                        addChars = true;
+                        break;
+                    case '}':
+                        var s = new string(chars.ToArray());
+                        items.Add(s);
+                        addChars = false;
+                        break;
+                    default:
+                        if (addChars)
+                            chars.Add(c);
+                        break;
+                }
+            }
+
+            return items.ToArray();
         }
     }
 }

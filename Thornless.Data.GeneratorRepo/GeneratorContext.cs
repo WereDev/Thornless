@@ -36,5 +36,7 @@ namespace Thornless.Data.GeneratorRepo
         }
 
         internal DbSet<CharacterAncestryDto> CharacterAncestries { get; set; }
+        internal DbSet<BuildingTypeDto> BuildingTypes { get; set; }
+        internal DbSet<BuildingNamePartDto> BuildingNameParts { get; set; }
     }
 }

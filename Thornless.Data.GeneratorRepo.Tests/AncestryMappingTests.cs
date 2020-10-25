@@ -9,7 +9,7 @@ using Thornless.Data.GeneratorRepo.DataModels;
 namespace Thornless.Data.GeneratorRepo.Tests
 {
     [TestFixture]
-    public class GeneratorRepoTests
+    public class AncestryMappingTests
     {
         private readonly Fixture _fixture = new Fixture();
 
