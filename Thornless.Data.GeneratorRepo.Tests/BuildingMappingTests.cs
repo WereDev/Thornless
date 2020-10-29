@@ -59,8 +59,11 @@ namespace Thornless.Data.GeneratorRepo.Tests
 
                 Assert.AreEqual(expectedNameFormat.NameFormat, actualNameFormat.NameFormat);
                 Assert.AreEqual(expectedNameFormat.RandomizationWeight, actualNameFormat.RandomizationWeight);
-                Assert.AreEqual(expectedNameFormat.NameFormat.Where(x => x == '{').Count(), actualNameFormat.NameFormatParts.Length);
-                foreach (var part in actualNameFormat.NameFormatParts)
+
+                var nameParts = GetNamePartGroups(actualNameFormat.NameFormat);
+                Assert.AreEqual(expectedNameFormat.NameFormat.Where(x => x == '{').Count(), nameParts.Length);
+                Assert.AreEqual(expectedNameFormat.NameFormat.Where(x => x == '}').Count(), nameParts.Length);
+                foreach (var part in nameParts)
                     Assert.True(expectedNameFormat.NameFormat.Contains("{" + part + "}"));
             }
         }
@@ -135,7 +138,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
             return nameParts.ToArray();
         }
 
-        private GeneratorRepo CreateInMemoryRepo(BuildingTypeDto[] buildingTypes, BuildingNamePartDto[] nameParts)
+        private BuildingNameRepository CreateInMemoryRepo(BuildingTypeDto[] buildingTypes, BuildingNamePartDto[] nameParts)
         {
             var options = new DbContextOptionsBuilder<GeneratorContext>()
                     .UseSqlite("DataSource=:memory:")
@@ -153,7 +156,36 @@ namespace Thornless.Data.GeneratorRepo.Tests
 
             context.SaveChanges();
 
-            return new GeneratorRepo(context);
+            return new BuildingNameRepository(context);
+        }
+
+        private string[] GetNamePartGroups(string format)
+        {
+            List<string> items = new List<string>();
+
+            List<char> chars = new List<char>();
+            bool addChars = false;
+            foreach (var c in format)
+            {
+                switch (c)
+                {
+                    case '{':
+                        chars.Clear();
+                        addChars = true;
+                        break;
+                    case '}':
+                        var s = new string(chars.ToArray());
+                        items.Add(s);
+                        addChars = false;
+                        break;
+                    default:
+                        if (addChars)
+                            chars.Add(c);
+                        break;
+                }
+            }
+
+            return items.ToArray();
         }
     }
 }

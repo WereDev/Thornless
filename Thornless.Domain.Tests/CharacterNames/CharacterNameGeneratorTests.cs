@@ -208,7 +208,7 @@ namespace Thornless.Domain.Tests.CharacterNames
 
         private CharacterNameGenerator CreateCharacterNameGenerator(AncestryModel[] ancestryModels)
         {
-            var mockRepository = new Mock<IGeneratorRepo>();
+            var mockRepository = new Mock<ICharacterNameRepository>();
             mockRepository.Setup(x => x.ListAncestries()).ReturnsAsync(ancestryModels);
             var mockItemSelector = new Mock<IRandomItemSelector>();
             var mockNumberGenerator = new Mock<IRandomNumberGenerator>();
@@ -220,7 +220,7 @@ namespace Thornless.Domain.Tests.CharacterNames
 
         private CharacterNameGenerator CreateCharacterNameGenerator(AncestryDetailsModel detailModel)
         {
-            var mockRepository = new Mock<IGeneratorRepo>();
+            var mockRepository = new Mock<ICharacterNameRepository>();
             mockRepository.Setup(x => x.GetAncestry(detailModel.Code)).ReturnsAsync(detailModel);
 
             var rng = new RandomNumberGenerator();

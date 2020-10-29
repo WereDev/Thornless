@@ -111,7 +111,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
             return ancestries;
         }
 
-        private GeneratorRepo CreateInMemoryRepo(CharacterAncestryDto[] ancestries)
+        private CharacterNameRepository CreateInMemoryRepo(CharacterAncestryDto[] ancestries)
         {
             var options = new DbContextOptionsBuilder<GeneratorContext>()
                     .UseSqlite("DataSource=:memory:")
@@ -123,7 +123,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
             context.AddRange(ancestries);
             context.SaveChanges();
 
-            return new GeneratorRepo(context);
+            return new CharacterNameRepository(context);
         }
 
         private string CreateJsonArrayString()

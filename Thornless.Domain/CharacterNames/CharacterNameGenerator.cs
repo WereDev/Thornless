@@ -11,26 +11,26 @@ namespace Thornless.Domain.CharacterNames
 {
     public class CharacterNameGenerator : ICharacterNameGenerator
     {
-        private readonly IGeneratorRepo _generatorRepo;
+        private readonly ICharacterNameRepository _repo;
         private readonly IRandomItemSelector _randomItemSelector;
         private readonly IRandomNumberGenerator _randomNumberGenerator;
 
-        public CharacterNameGenerator(IGeneratorRepo generatorRepo, IRandomItemSelector randomItemSelector, IRandomNumberGenerator randomNumberGenerator)
+        public CharacterNameGenerator(ICharacterNameRepository repo, IRandomItemSelector randomItemSelector, IRandomNumberGenerator randomNumberGenerator)
         {
-            _generatorRepo = generatorRepo ?? throw new ArgumentNullException(nameof(generatorRepo));
+            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _randomItemSelector = randomItemSelector ?? throw new ArgumentNullException(nameof(randomItemSelector));
             _randomNumberGenerator = randomNumberGenerator ?? throw new ArgumentNullException(nameof(randomNumberGenerator));
         }
 
         public Task<AncestryModel[]> ListAncestries()
         {
-            var ancestries = _generatorRepo.ListAncestries();
+            var ancestries = _repo.ListAncestries();
             return ancestries;
         }
 
         public Task<AncestryDetailsModel> ListAncestryOptions(string ancestryCode)
         {
-            var ancestry = _generatorRepo.GetAncestry(ancestryCode);
+            var ancestry = _repo.GetAncestry(ancestryCode);
             return ancestry;            
         }
 
