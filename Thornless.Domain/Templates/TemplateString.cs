@@ -34,10 +34,7 @@ namespace Thornless.Domain.Templates
                     case '}':
                         chars.Add(c);
                         string s = new string(chars.ToArray());
-                        TemplateField ti = new TemplateField
-                        {
-                            FieldTemplate = s,
-                        };
+                        TemplateField ti = new TemplateField(s);
                         items.Add(ti);
                         addchars = false;
                         break;

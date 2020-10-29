@@ -59,12 +59,6 @@ namespace Thornless.Data.GeneratorRepo.Tests
 
                 Assert.AreEqual(expectedNameFormat.NameFormat, actualNameFormat.NameFormat);
                 Assert.AreEqual(expectedNameFormat.RandomizationWeight, actualNameFormat.RandomizationWeight);
-
-                var nameParts = GetNamePartGroups(actualNameFormat.NameFormat);
-                Assert.AreEqual(expectedNameFormat.NameFormat.Where(x => x == '{').Count(), nameParts.Length);
-                Assert.AreEqual(expectedNameFormat.NameFormat.Where(x => x == '}').Count(), nameParts.Length);
-                foreach (var part in nameParts)
-                    Assert.True(expectedNameFormat.NameFormat.Contains("{" + part + "}"));
             }
         }
 
@@ -94,26 +88,9 @@ namespace Thornless.Data.GeneratorRepo.Tests
         {
             var buildingTypes = _fixture.Build<BuildingTypeDto>()
                                         .With(x => x.LastUpdatedDate, _fixture.Create<DateTime>().ToString())
-                                        .With(x => x.NameFormats, CreateBuildingNameFormats())
                                         .CreateMany(3)
                                         .ToArray();
             return buildingTypes;
-        }
-
-        private List<BuildingNameFormatDto> CreateBuildingNameFormats()
-        {
-            return new List<BuildingNameFormatDto>()
-            {
-                _fixture.Build<BuildingNameFormatDto>()
-                        .With(x => x.NameFormat, $"One {{{_fixture.Create<string>() }}}")
-                        .Create(),
-                _fixture.Build<BuildingNameFormatDto>()
-                        .With(x => x.NameFormat, $"Two {{{_fixture.Create<string>() }}} And {{{_fixture.Create<string>() }}}")
-                        .Create(),
-                _fixture.Build<BuildingNameFormatDto>()
-                        .With(x => x.NameFormat, $"Three {{{_fixture.Create<string>() }}} And {{{_fixture.Create<string>() }}} Or {{{_fixture.Create<string>() }}}")
-                        .Create(),
-            };
         }
 
         private BuildingNamePartDto[] CreateBuildingNameParts(string group1Code, string group2Code, string group3Code)
@@ -157,35 +134,6 @@ namespace Thornless.Data.GeneratorRepo.Tests
             context.SaveChanges();
 
             return new BuildingNameRepository(context);
-        }
-
-        private string[] GetNamePartGroups(string format)
-        {
-            List<string> items = new List<string>();
-
-            List<char> chars = new List<char>();
-            bool addChars = false;
-            foreach (var c in format)
-            {
-                switch (c)
-                {
-                    case '{':
-                        chars.Clear();
-                        addChars = true;
-                        break;
-                    case '}':
-                        var s = new string(chars.ToArray());
-                        items.Add(s);
-                        addChars = false;
-                        break;
-                    default:
-                        if (addChars)
-                            chars.Add(c);
-                        break;
-                }
-            }
-
-            return items.ToArray();
         }
     }
 }

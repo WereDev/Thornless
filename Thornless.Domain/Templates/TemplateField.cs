@@ -4,45 +4,33 @@ namespace Thornless.Domain.Templates
 {
     public class TemplateField
     {
-        private string _fieldTemplate = string.Empty;
-        private string _fieldName = string.Empty;
-
-        public string FieldTemplate
+        public TemplateField(string fieldTemplate)
         {
-            get
-            {
-                return _fieldTemplate;
-            }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    _fieldName = string.Empty;
-                    _fieldTemplate = string.Empty;
-                }
-                else
-                {
-                    _fieldTemplate = value;
-                    SetFieldName();
-                }
-            }
+            if (string.IsNullOrWhiteSpace(fieldTemplate))
+                throw new ArgumentNullException(nameof(fieldTemplate));
+
+            SetFields(fieldTemplate);
         }
+
+        public string FieldTemplate { get; private set; }
 
         public string FieldName { get; private set; }
 
-        private void SetFieldName()
+        private void SetFields(string fieldTemplate)
         {
-            _fieldName = string.Empty;
+            if (!fieldTemplate.StartsWith("{"))
+                fieldTemplate = "{" + fieldTemplate;
 
-            if (!_fieldTemplate.StartsWith("{") || !_fieldTemplate.EndsWith("}"))
-                throw new ArgumentException("Invalid field format.  Template field should start/end with {/}");
+            if (!fieldTemplate.EndsWith("}"))
+                fieldTemplate += "}";
 
-            int colonIndex = _fieldTemplate.IndexOf(":");
+            int colonIndex = fieldTemplate.IndexOf(":");
 
             if (colonIndex > -1)
-                _fieldName = _fieldTemplate[1..colonIndex];
+                FieldName = fieldTemplate[1..colonIndex];
             else
-                _fieldName = _fieldTemplate[1..^1];
+                FieldName = fieldTemplate[1..^1];
+            FieldTemplate = fieldTemplate;
         }
     }
 }
