@@ -1,6 +1,6 @@
-namespace Thornless.Domain.BuildingNames.Models
+namespace Thornless.UI.Web.ViewModels.BuildingName
 {
-    public class BuildingNameResultModel
+    public class BuildingNameResultViewModel
     {
         public string BuildingName { get; set; }
 

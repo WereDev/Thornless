@@ -4,6 +4,7 @@ using Thornless.Data.GeneratorRepo;
 using Thornless.Domain.BuildingNames;
 using Thornless.Domain.CharacterNames;
 using Thornless.Domain.Randomization;
+using Thornless.UI.Web.ViewModels.BuildingName;
 using Thornless.UI.Web.ViewModels.CharacterName;
 
 namespace Thornless.UI.Web.AppStart
@@ -22,7 +23,8 @@ namespace Thornless.UI.Web.AppStart
 
             var mapperConfig = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile<CharacterNameMapperProfile>();    
+                cfg.AddProfile<CharacterNameMapperProfile>();
+                cfg.AddProfile<BuildingNameMapperProfile>();
             });
 
             mapperConfig.AssertConfigurationIsValid();
