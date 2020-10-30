@@ -112,7 +112,7 @@ namespace Thornless.Domain.CharacterNames
                         || AncestryLiterals.Literals.Contains(nextPart.NamePartCode))
                         continue;
 
-                    var randomNumber = _randomNumberGenerator.GetRandomInteger(100) + 1;
+                    var randomNumber = _randomNumberGenerator.GetRandomInteger(100);
                     if (randomNumber > adjustedChance)
                         continue;
 

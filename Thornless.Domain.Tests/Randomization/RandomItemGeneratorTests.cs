@@ -7,9 +7,9 @@ namespace Thornless.Domain.Tests.Randomization
     [TestFixture]
     public class RandomItemGeneratorTests
     {
-        [TestCase(0)]
         [TestCase(1)]
         [TestCase(2)]
+        [TestCase(3)]
         public void GetRandomItem_WithCollection_ReturnsCorrectItem(int randomNumber)
         {
             var mockRandomNumberGenerator = new Mock<IRandomNumberGenerator>();
@@ -24,7 +24,7 @@ namespace Thornless.Domain.Tests.Randomization
             };
 
             var item = randomItemSelector.GetRandomItem<WeightedItem>(items);
-            Assert.AreEqual(items[randomNumber], item);
+            Assert.AreEqual(items[randomNumber - 1], item);
             mockRandomNumberGenerator.Verify(x => x.GetRandomInteger(3), Times.Once);
             mockRandomNumberGenerator.VerifyNoOtherCalls();
         }

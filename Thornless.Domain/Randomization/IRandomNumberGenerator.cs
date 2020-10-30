@@ -6,7 +6,7 @@ namespace Thornless.Domain.Randomization
         /// Generates a random integer.
         /// </summary>
         /// <param name="maxValue">The upper bound of the value to return.</param>
-        /// <returns>An integer greater than or equal to 0 and less than maxValue.</returns>
+        /// <returns>An integer greater than or equal to 1 and less than or equal to maxValue.</returns>
         int GetRandomInteger(int maxValue);
     }
 }

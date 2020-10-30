@@ -13,7 +13,10 @@ namespace Thornless.Domain.Randomization
 
         public int GetRandomInteger(int maxValue)
         {
-            return _random.Next(maxValue);
+            if (maxValue <= 0)
+                return 1;
+
+            return _random.Next(0, maxValue) + 1;
         }
     }
 }

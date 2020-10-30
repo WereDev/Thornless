@@ -13,14 +13,12 @@ namespace Thornless.Domain.BuildingNames
     {
         private readonly IBuildingNameRepository _repo;
         private readonly IRandomItemSelector _randomItemSelector;
-        private readonly IRandomNumberGenerator _randomNumberGenerator;
         private readonly IMemoryCache _memoryCache;
 
-        public BuildingNameGenerator(IBuildingNameRepository repo, IRandomItemSelector randomItemSelector, IRandomNumberGenerator randomNumberGenerator, IMemoryCache cache)
+        public BuildingNameGenerator(IBuildingNameRepository repo, IRandomItemSelector randomItemSelector, IMemoryCache cache)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _randomItemSelector = randomItemSelector ?? throw new ArgumentNullException(nameof(randomItemSelector));
-            _randomNumberGenerator = randomNumberGenerator ?? throw new ArgumentNullException(nameof(randomNumberGenerator));
             _memoryCache = cache ?? throw new ArgumentNullException(nameof(cache));
         }
 
