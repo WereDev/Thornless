@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +46,7 @@ namespace Thornless.UI.Web.AppStart
             });
 
             app.UseStaticFiles();
-            
+
             if (env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -59,27 +60,12 @@ namespace Thornless.UI.Web.AppStart
                         if (ctx.Context.Request.Path.Value.ToLower().EndsWith("index.html"))
                         {
                             // Do not cache explicit `index.html`. See also: `DefaultPageStaticFileOptions` below for implicit "/index.html"
-                            var headers = ctx.Context.Response.GetTypedHeaders();
-                            headers.CacheControl = new CacheControlHeaderValue
-                            {
-                                Public = true,
-                                MaxAge = TimeSpan.FromDays(0),
-                                NoCache = true,
-                                NoStore = true,
-                                MustRevalidate = true,
-                                ProxyRevalidate = true,
-                            };
+                            SetNoCacheOnHeader(ctx.Context.Response.Headers, 0);
                         }
                         else
                         {
                             // Cache all static resources for 30 days (versioned filenames)
-                            var headers = ctx.Context.Response.GetTypedHeaders();
-                            headers.CacheControl = new CacheControlHeaderValue
-                            {
-                                Public = true,
-                                MaxAge = TimeSpan.FromDays(30),
-                            };
-                            headers.Expires = DateTimeOffset.UtcNow.AddDays(30);
+                            SetNoCacheOnHeader(ctx.Context.Response.Headers, 30);
                         }
                     },
                 });
@@ -109,20 +95,18 @@ namespace Thornless.UI.Web.AppStart
                         OnPrepareResponse = ctx =>
                         {
                             // Do not cache implicit `/index.html`.  See also: `UseSpaStaticFiles` above
-                            var headers = ctx.Context.Response.GetTypedHeaders();
-                            headers.CacheControl = new CacheControlHeaderValue
-                            {
-                                Public = true,
-                                MaxAge = TimeSpan.FromDays(0),
-                                NoCache = true,
-                                NoStore = true,
-                                MustRevalidate = true,
-                                ProxyRevalidate = true,
-                            };
+                            SetNoCacheOnHeader(ctx.Context.Response.Headers, 0);
                         },
                     };
                 }
             });
+        }
+
+        private void SetNoCacheOnHeader(IHeaderDictionary headers, int expirationDays)
+        {
+            headers.Append("CacheControl", "no-cache, no-store, must-revalidate");
+            headers.Append("Expires", expirationDays.ToString());
+            headers.Append("Pragma", "no-cache");
         }
     }
 }
