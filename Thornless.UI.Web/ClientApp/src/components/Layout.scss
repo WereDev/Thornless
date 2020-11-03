@@ -25,3 +25,12 @@ a {
     fill: $hilite-color;
   }
 }
+
+@media (max-width: 990px) {
+  #main {
+    & #header, #content {
+      margin-left: -5px;
+      margin-right: -5px;
+    }
+  }
+}

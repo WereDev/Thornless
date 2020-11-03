@@ -2,12 +2,6 @@ import { Action, Reducer } from 'redux';
 import { AppThunkAction } from '.';
 import * as Common from '../shared';
 
-export interface NameCodeSort {
-    code: string,
-    name: string,
-    sortOrder: number
-}
-
 export interface CharacterNameState {
     ancestries: Ancestry[];
     selectedAncestry: string | null;
@@ -17,7 +11,7 @@ export interface CharacterNameState {
     loadState: Common.LoadingStates;
 }
 
-export interface Ancestry extends NameCodeSort {
+export interface Ancestry extends Common.NameCodeSort {
 
 }
 
@@ -26,7 +20,7 @@ export interface AncestryOption {
     name: string,
     copyright: string,
     flavorHtml: string,
-    options: NameCodeSort[]
+    options: Common.NameCodeSort[]
 }
 
 export interface CharacterName {

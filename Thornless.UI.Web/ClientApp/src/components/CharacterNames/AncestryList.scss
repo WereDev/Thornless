@@ -37,6 +37,8 @@
 
     & .col-content {
       flex: 0 0 auto;
+      padding-left: 0px;
+      padding-right: 0px;
     }
   }
 
@@ -67,17 +69,17 @@
       font-size: .8rem;
     }
     & .ancestry-name-part-meanings {
-      padding-left: 20px;
+      padding-left: .5rem;
+      width: 100%;
+      text-align: left;
+      border-spacing: 0px;
       & .ancestry-name-part-header {
         background-color: $light-background-color;
       }
       & .ancestry-name-part {
-        display: inline-block;
         font-weight: bold;
         width: 20%;
-      }
-      & .ancestry-name-meaning {
-        display: inline-block;
+        vertical-align: top;
       }
     }
   }

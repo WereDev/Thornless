@@ -10,12 +10,12 @@ $title-font: 'TomeOfTheUnknown', serif;
 
 @font-face {
     font-family: 'FertigoPro';
-    src:  url('/fonts/FertigoPro.woff2') format('woff2'),
-          url('/fonts/FertigoPro.woff') format('woff');
+    src:  url('./fonts/FertigoPro.woff2') format('woff2'),
+          url('./fonts/FertigoPro.woff') format('woff');
   }
 
 @font-face {
     font-family: 'TomeOfTheUnknown';
-    src:  url('/fonts/TomeOfTheUnknown.woff2') format('woff2'),
-          url('/fonts/TomeOfTheUnknown.woff') format('woff');
+    src:  url('./fonts/TomeOfTheUnknown.woff2') format('woff2'),
+          url('./fonts/TomeOfTheUnknown.woff') format('woff');
 }

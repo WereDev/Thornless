@@ -1,5 +1,5 @@
 using AutoMapper;
-using Thornless.Domain.Models.CharacterNames;
+using Thornless.Domain.CharacterNames.Models;
 
 namespace Thornless.UI.Web.ViewModels.CharacterName
 {

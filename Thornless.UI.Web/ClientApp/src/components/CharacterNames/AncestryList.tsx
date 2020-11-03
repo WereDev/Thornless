@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../../store';
 import * as AncestryStore from '../../store/characterNameService';
+import { NameCodeSort } from '../../shared/index';
 
 import './AncestryList.scss';
 
@@ -34,7 +35,6 @@ class FetchData extends React.Component<AncestryProps> {
         this.scrollToColumn(this.optionsColumnRef)
       }
     });
-
   }
 
   public optionSelected(event: React.FormEvent<HTMLButtonElement>) {
@@ -61,8 +61,6 @@ class FetchData extends React.Component<AncestryProps> {
           <div className="col-lg-4 col-12 col-content">{this.renderOptionsDropdown()}</div>
           <div className="col-lg-4 col-12 col-content">{this.renderName()}</div>
         </div>
-        {/* {this.renderCountDropdown()}
-        {this.renderSubmitButton()} */}
       </React.Fragment>
     );
   }
@@ -106,7 +104,7 @@ class FetchData extends React.Component<AncestryProps> {
         <div>
           <h3>{this.props?.ancestryOptions?.name}</h3>
         </div>
-        {this.props?.ancestryOptions?.options.sort((a, b) => a.sortOrder - b.sortOrder).map((option: AncestryStore.NameCodeSort) =>
+        {this.props?.ancestryOptions?.options.sort((a, b) => a.sortOrder - b.sortOrder).map((option: NameCodeSort) =>
           <div className="select-button" key={option.code}>
             <button value={option.code} onClick={e => this.optionSelected(e)}>{option.name}</button>
           </div>
@@ -144,16 +142,26 @@ class FetchData extends React.Component<AncestryProps> {
           </div>
         </div>
         <div className="col-content">
-          {this.props?.characterNames.map((name: AncestryStore.CharacterName) =>
+          {this.props?.characterNames.map((name: AncestryStore.CharacterName, index: number) =>
             <div key={name.name} className="ancestry-name-item">
               <h3>{name.name}</h3>
               <h4>{name.ancestryName} | {name.optionName}</h4>
-              <div className="ancestry-name-part-meanings">
-                <div className="ancestry-name-part-header"><div className="ancestry-name-part">Part: </div><div className="ancestry-name-meaning">Definition</div></div>
-                {name.definitions.map((definition: AncestryStore.CharacterNameDefinition) =>
-                  <div><div className="ancestry-name-part">{definition.namePart}: </div><div className="ancestry-name-meaning">{definition.meanings.join(", ")}</div></div>
-                )}
-              </div>
+              <table className="ancestry-name-part-meanings">
+                <thead>
+                  <tr className="ancestry-name-part-header">
+                    <th className="ancestry-name-part">Part</th>
+                    <th className="ancestry-name-meaning">Meanings</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {name.definitions.map((definition: AncestryStore.CharacterNameDefinition) =>
+                    <tr key={name.name + '-' + definition.namePart + '-' + index}>
+                      <td className="ancestry-name-part">{definition.namePart}</td>
+                      <td className="ancestry-name-meaning">{definition.meanings.join(", ")}</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
