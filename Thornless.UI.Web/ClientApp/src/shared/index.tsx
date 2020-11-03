@@ -10,3 +10,9 @@ export enum LoadingStates {
     IsLoaded,
     IsNotStarted
 };
+
+export interface NameCodeSort {
+    code: string,
+    name: string,
+    sortOrder: number
+}

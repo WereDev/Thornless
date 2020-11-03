@@ -19,11 +19,14 @@ const Home = () => (
         </NavLink>
       </div>
       <div className="col-md-4 col-12 mt-4 nav-link">
+        <NavLink tag={Link} to="/buildingnames">
+          Buildings
+        </NavLink>
+      </div>
+      <div className="col-md-4 col-12 mt-4 nav-link">
         <NavLink tag={Link} to="/about">
           About
         </NavLink>
-      </div>
-      <div className="col-md-4 col-12 mt-4">
       </div>
     </div>
   </div>

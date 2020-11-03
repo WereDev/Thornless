@@ -7,7 +7,7 @@ namespace Thornless.UI.Web.ViewModels.BuildingName
     {
         public BuildingNameMapperProfile()
         {
-            CreateMap<BuildingTypeModel, BuildingTypesViewModel.BuildingType>();
+            CreateMap<BuildingTypeModel, BuildingTypesViewModel>();
 
             CreateMap<BuildingNameResultModel, BuildingNameResultViewModel>();
         }

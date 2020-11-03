@@ -24,10 +24,7 @@ namespace Thornless.UI.Web.Controllers
         public async Task<IActionResult> ListBuildings()
         {
             var types = await _generator.ListBuildingTypes();
-            var result = new BuildingTypesViewModel
-            {
-                BuildingTypes = _mapper.Map<BuildingTypesViewModel.BuildingType[]>(types),
-            };
+            var result = _mapper.Map<BuildingTypesViewModel[]>(types);
             
             return ApiResponse(result);
         }

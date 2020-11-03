@@ -1,9 +1,11 @@
 import * as AncestryList from './characterNameService';
+import * as BuildingList from './buildingNameService';
 import * as LayoutState from './layoutService';
 
 // The top-level state object
 export interface ApplicationState {
     characterNames: AncestryList.CharacterNameState | undefined;
+    buildingNames: BuildingList.BuildingNameState | undefined;
     layoutState: LayoutState.LayoutState | undefined; 
 }
 
@@ -12,6 +14,7 @@ export interface ApplicationState {
 // acts on the corresponding ApplicationState property type.
 export const reducers = {
     characterNames: AncestryList.reducer,
+    buildingNames: BuildingList.reducer,
     layoutState: LayoutState.reducer
 };
 
