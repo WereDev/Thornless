@@ -82,9 +82,9 @@ namespace Thornless.Data.GeneratorRepo.Tests
                         addChars = true;
                         break;
                     case '}':
-                        chars.Add(c);
-                        var s = new string(chars.ToArray());
                         addChars = false;
+                        var s = new string(chars.ToArray());
+                        items.Add(s);
                         break;
                     default:
                         if (addChars)
