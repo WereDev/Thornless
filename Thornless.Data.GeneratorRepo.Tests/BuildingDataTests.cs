@@ -18,16 +18,16 @@ namespace Thornless.Data.GeneratorRepo.Tests
             var nameParts = await database.BuildingNameParts
                                                 .ToListAsync();
 
+            var namePartGroups = nameParts.Select(x => x.GroupCode)
+                                            .Distinct()
+                                            .ToHashSet();
+
             foreach (var namePart in nameParts)
-                VerifyNamePart(namePart);
+                VerifyNamePart(namePart, namePartGroups);
 
             var buildingTypes = await database.BuildingTypes
                                         .Include(x => x.NameFormats)
                                         .ToListAsync();
-
-            var namePartGroups = nameParts.Select(x => x.GroupCode)
-                                            .Distinct()
-                                            .ToHashSet();
 
             Assert.AreEqual(buildingTypes.Select(x => x.SortOrder).Distinct().Count(), buildingTypes.Count());
 
@@ -35,12 +35,19 @@ namespace Thornless.Data.GeneratorRepo.Tests
                 VerifyBuildingType(building, namePartGroups);
         }
 
-        private void VerifyNamePart(BuildingNamePartDto namePart)
+        private void VerifyNamePart(BuildingNamePartDto namePart, HashSet<string> namePartGroups)
         {
             Assert.NotNull(namePart.GroupCode);
             Assert.AreEqual(namePart.GroupCode, namePart.GroupCode.ToLower(), "BuildingNamePart Code should be lower case");
             Assert.NotNull(namePart.NamePart);
             Assert.Greater(namePart.RandomizationWeight, 0, "BuildingNamePart RandomizationWeight should be greater than zero.");
+            Assert.AreEqual(namePart.NamePart.ToUpper()[0], namePart.NamePart[0], $"{namePart.NamePart} should start with a capital letter.");
+
+            if (namePart.NamePart.StartsWith("{"))
+            {
+                var nameGroup = namePart.NamePart[1..^1];
+                Assert.True(namePartGroups.Contains(nameGroup), $"{nameGroup} not found in BuildingNameParts");
+            }
         }
 
         private void VerifyBuildingType(BuildingTypeDto buildingType, HashSet<string> namePartGroups)

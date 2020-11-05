@@ -1,105 +1,21 @@
 @import "../../shared/theme.scss";
 
-@media (min-width: 990px)
-{
-  #ancestry-row {
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-
-    & .col-content {
-      overflow-y: auto;
-      height: 100%;
-    }
-
-    & .col-content:first-child {
-      padding-left: 0px;
-    }
-
-    & .col-content:last-child {
-      padding-right: 0px;
-    }
-  }
-
-  .toTopLink {
-    display: none;
-  }
+.ancestry-copyright {
+  font-family: serif;
+  font-size: .8rem;
 }
 
-@media (max-width: 990px)
-{
-  #ancestry-row {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    margin-bottom: 30px;
-
-    & .col-content {
-      flex: 0 0 auto;
-      padding-left: 0px;
-      padding-right: 0px;
-    }
+.ancestry-name-part-meanings {
+  padding-left: .5rem;
+  width: 100%;
+  text-align: left;
+  border-spacing: 0px;
+  & .ancestry-name-part-header {
+  background-color: $light-background-color;
   }
-
-  .toTopLink {
-    border: transparent;
-    background: transparent;
-    color: $foreground-color;
-  }
-}
-
-#ancestry-options
-{
-  & .ancestry-copyright {
-    font-family: serif;
-    font-size: .8rem;
-  }
-}
-
-#ancestry-names {
-  .ancestry-name-item {
-    & h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0px;
-      color: $title-color;
-    }
-    & h4 {
-      margin-top: 0px;
-      font-size: .8rem;
-    }
-    & .ancestry-name-part-meanings {
-      padding-left: .5rem;
-      width: 100%;
-      text-align: left;
-      border-spacing: 0px;
-      & .ancestry-name-part-header {
-        background-color: $light-background-color;
-      }
-      & .ancestry-name-part {
-        font-weight: bold;
-        width: 20%;
-        vertical-align: top;
-      }
-    }
-  }
-}
-
-.select-button {
-  text-align: center;
-  & button {
-    border: 1px solid $foreground-color;
-    border-radius: 3px;
-    background-color: $background-color;
-    color: $foreground-color;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    width: 80%;
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    &:hover {
-      background-color: $link-color;
-      color: $background-color;
-    }
+  & .ancestry-name-part {
+  font-weight: bold;
+  width: 20%;
+  vertical-align: top;
   }
 }

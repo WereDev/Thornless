@@ -56,7 +56,7 @@ class FetchData extends React.Component<AncestryProps> {
   public render() {
     return (
       <React.Fragment>
-        <div id="ancestry-row">
+        <div id="generator-row">
           <div className="col-lg-4 col-12 col-content">{this.renderAncestyDropdown()}</div>
           <div className="col-lg-4 col-12 col-content">{this.renderOptionsDropdown()}</div>
           <div className="col-lg-4 col-12 col-content">{this.renderName()}</div>
@@ -143,7 +143,7 @@ class FetchData extends React.Component<AncestryProps> {
         </div>
         <div className="col-content">
           {this.props?.characterNames.map((name: AncestryStore.CharacterName, index: number) =>
-            <div key={name.name} className="ancestry-name-item">
+            <div key={name.name} className="generator-result-card">
               <h3>{name.name}</h3>
               <h4>{name.ancestryName} | {name.optionName}</h4>
               <table className="ancestry-name-part-meanings">

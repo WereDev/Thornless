@@ -110,7 +110,8 @@ export const reducer: Reducer<BuildingNameState> = (state: BuildingNameState | u
             break;
         case 'RECEIVE_BUILDING_NAMES':
             currentState.loadState = Common.LoadingStates.IsLoaded;
-            currentState.buildingNames.splice(0, 0, action.buildingName);
+            let buildignNames = [ action.buildingName ];
+            currentState.buildingNames = buildignNames.concat(currentState.buildingNames);
             break;
     }
     return currentState;

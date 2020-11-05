@@ -29,7 +29,8 @@ namespace Thornless.Domain.BuildingNames
                 return null;
 
             var nameFormat = _randomItemSelector.GetRandomWeightedItem(buildingType.NameFormats);
-            var buildingName = await GenerateBuildingNameFromFormat(nameFormat.NameFormat);
+            var nameGroups = await GetBuildingNameGroups();
+            var buildingName = GenerateBuildingNameFromFormat(nameFormat.NameFormat, nameGroups);
 
             return new BuildingNameResultModel
             {
@@ -39,16 +40,15 @@ namespace Thornless.Domain.BuildingNames
             };
         }
 
-        public Task<BuildingTypeModel[]> ListBuildingTypes()
+        public async Task<BuildingTypeModel[]> ListBuildingTypes()
         {
-            return _repo.ListBuildingTypes();
+            return await _repo.ListBuildingTypes();
         }
 
-        private async Task<string> GenerateBuildingNameFromFormat(string nameFormat)
+        private string GenerateBuildingNameFromFormat(string nameFormat, BuildingNameGroups nameGroups)
         {
-            var nameGroups = await GetBuildingNameGroups();
             var template = new TemplateString(nameFormat);
-            var buildingName = nameFormat;
+
             var results = new HashSet<string>();
 
             foreach (var field in template.TemplateFields)
@@ -61,15 +61,21 @@ namespace Thornless.Domain.BuildingNames
                 results.Add(nameResult.NamePart);
 
                 var regex = new Regex(Regex.Escape(field.FieldTemplate));
-                buildingName = regex.Replace(buildingName, nameResult.NamePart, 1);
+                nameFormat = regex.Replace(nameFormat, nameResult.NamePart, 1);
             }
 
-            return buildingName;
+            // There are template results that then reference another template.
+            if (nameFormat.Contains("{"))
+            {
+                nameFormat = GenerateBuildingNameFromFormat(nameFormat, nameGroups);
+            }
+
+            return nameFormat;
         }
 
-        private Task<BuildingNameGroups> GetBuildingNameGroups()
+        private async Task<BuildingNameGroups> GetBuildingNameGroups()
         {
-            return _memoryCache.GetOrCreateAsync(nameof(BuildingNameGroups), nameGroup =>
+            return await _memoryCache.GetOrCreateAsync(nameof(BuildingNameGroups), nameGroup =>
             {
                 return _repo.GetBuildingNameGroups();
             });

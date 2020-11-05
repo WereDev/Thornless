@@ -4,6 +4,7 @@ import { ApplicationState } from '../store';
 import * as LayoutStore from '../store/layoutService';
 
 import './Layout.scss'
+import './Generator.scss'
 
 type LayoutProps =
     LayoutStore.LayoutState
