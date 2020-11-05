@@ -48,8 +48,8 @@ class FetchData extends React.Component<BuildingProps> {
           </div>
         </div>
         <div>
-          {this.props?.buildingNames.map((buildingName: BuildingStore.BuildingName) =>
-            <div key={buildingName.buildingName} className="ancestry-name-item">
+          {this.props?.buildingNames.map((buildingName: BuildingStore.BuildingName, index: number) =>
+            <div key={index + " " + buildingName.buildingName} className="generator-result-card">
               <h3>{buildingName.buildingName}</h3>
               <h4>{buildingName.buildingTypeName}</h4>
             </div>
@@ -72,7 +72,7 @@ class FetchData extends React.Component<BuildingProps> {
   public render() {
     return (
       <React.Fragment>
-        <div id="ancestry-row">
+        <div id="generator-row">
           <div className="col-lg-4 col-12 col-content">{this.renderBuildingTypes()}</div>
           <div className="col-lg-4 col-12 col-content">{this.renderBuildingNames()}</div>
         </div>

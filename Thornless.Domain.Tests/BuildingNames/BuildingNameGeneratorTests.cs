@@ -106,6 +106,18 @@ namespace Thornless.Domain.Tests.BuildingNames
                         || results.BuildingName == "personB & personA");
         }
 
+        [Test]
+        public async Task GenerateBuildingName_WhenHasSecondaryTemplateItem_FillsAdditionalFormat()
+        {
+            var details = CreateFullBuildingTypeDetailsModel(true);
+            var generator = CreateBuildingNameGenerator(null, details, GetFullBuildingNameParts(true));
+
+            var results = await generator.GenerateBuildingName(details[0].Code);
+
+            Assert.False(results.BuildingName.Contains("{"));
+            Assert.True(results.BuildingName.StartsWith("thing"));
+        }
+
         private BuildingTypeModel[] CreateBuildingType()
         {
             return new BuildingTypeModel[]
@@ -142,7 +154,7 @@ namespace Thornless.Domain.Tests.BuildingNames
             return generator;
         }
 
-        private BuildingTypeDetailsModel[] CreateFullBuildingTypeDetailsModel()
+        private BuildingTypeDetailsModel[] CreateFullBuildingTypeDetailsModel(bool useEmbedded = false)
         {
             var nameFormats = new BuildingTypeDetailsModel.BuildingNameFormatModel[]
                                 {
@@ -151,9 +163,17 @@ namespace Thornless.Domain.Tests.BuildingNames
                                     new BuildingTypeDetailsModel.BuildingNameFormatModel { NameFormat = "{item} OR {food}", RandomizationWeight = 1 },
                                 };
 
+            if (useEmbedded)
+            {
+                nameFormats = new BuildingTypeDetailsModel.BuildingNameFormatModel[]
+                {
+                    new BuildingTypeDetailsModel.BuildingNameFormatModel { NameFormat = "{embed}", RandomizationWeight = 1 },
+                };
+            }
+
             var detailsModel = _fixture.Build<BuildingTypeDetailsModel>()
                                         .With(x => x.NameFormats, nameFormats)
-                                        .CreateMany(3)
+                                        .CreateMany(useEmbedded ? 1 : 3)
                                         .ToArray();
 
             return detailsModel;
@@ -174,7 +194,7 @@ namespace Thornless.Domain.Tests.BuildingNames
             return detailsModel;
         }
 
-        private BuildingNameGroups GetFullBuildingNameParts()
+        private BuildingNameGroups GetFullBuildingNameParts(bool includeEmbedded = false)
         {
             var nameParts = new Dictionary<string, BuildingNameGroups.NamePartModel[]>
             {
@@ -205,6 +225,16 @@ namespace Thornless.Domain.Tests.BuildingNames
                     }
                 },
             };
+
+            if (includeEmbedded)
+            {
+                nameParts.Add(
+                    "embed",
+                    new BuildingNameGroups.NamePartModel[]
+                    {
+                        new BuildingNameGroups.NamePartModel { NamePart = "{item}", RandomizationWeight = 1 },
+                    });
+            }
 
             return new BuildingNameGroups
             {
