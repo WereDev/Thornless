@@ -30,7 +30,7 @@ namespace Thornless.Data.GeneratorRepo
             return mapped;
         }
 
-        public async Task<BuildingTypeDetailsModel> GetBuildingType(string buildingTypeCode)
+        public async Task<BuildingTypeDetailsModel?> GetBuildingType(string buildingTypeCode)
         {
             var buildingType = await _generatorContext.BuildingTypes
                                                     .Include(x => x.NameFormats)

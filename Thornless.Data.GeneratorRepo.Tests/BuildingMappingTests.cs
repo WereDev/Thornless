@@ -29,7 +29,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
                 var actualBuilding = actualBuildngTypes.FirstOrDefault(x => x.Code == expectedBuilding.Code);
                 Assert.NotNull(actualBuilding);
                 Assert.AreEqual(expectedBuilding.Copyright, actualBuilding.Copyright);
-                Assert.AreEqual(DateTimeOffset.Parse(expectedBuilding.LastUpdatedDate), actualBuilding.LastUpdatedDate);
+                Assert.AreEqual(DateTimeOffset.Parse(expectedBuilding.LastUpdatedDate!), actualBuilding.LastUpdatedDate);
                 Assert.AreEqual(expectedBuilding.Name, actualBuilding.Name);
                 Assert.AreEqual(expectedBuilding.SortOrder, actualBuilding.SortOrder);
             }
@@ -42,12 +42,12 @@ namespace Thornless.Data.GeneratorRepo.Tests
             var repo = CreateInMemoryRepo(expectedBuildings, null);
 
             var expectedBuilding = expectedBuildings[1];
-            var actualBuilding = await repo.GetBuildingType(expectedBuilding.Code);
+            var actualBuilding = (await repo.GetBuildingType(expectedBuilding.Code!))!;
 
             Assert.NotNull(actualBuilding);
             Assert.AreEqual(expectedBuilding.Code, actualBuilding.Code);
             Assert.AreEqual(expectedBuilding.Copyright, actualBuilding.Copyright);
-            Assert.AreEqual(DateTimeOffset.Parse(expectedBuilding.LastUpdatedDate), actualBuilding.LastUpdatedDate);
+            Assert.AreEqual(DateTimeOffset.Parse(expectedBuilding.LastUpdatedDate!), actualBuilding.LastUpdatedDate);
             Assert.AreEqual(expectedBuilding.Name, actualBuilding.Name);
             Assert.AreEqual(expectedBuilding.SortOrder, actualBuilding.SortOrder);
 
@@ -80,7 +80,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
 
             foreach (var expectedPart in expectedNameParts)
             {
-                Assert.True(actualNameParts.NameParts[expectedPart.GroupCode].Any(x => x.NamePart == expectedPart.NamePart && x.RandomizationWeight == expectedPart.RandomizationWeight));
+                Assert.True(actualNameParts.NameParts[expectedPart.GroupCode!].Any(x => x.NamePart == expectedPart.NamePart && x.RandomizationWeight == expectedPart.RandomizationWeight));
             }
         }
 
@@ -115,7 +115,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
             return nameParts.ToArray();
         }
 
-        private BuildingNameRepository CreateInMemoryRepo(BuildingTypeDto[] buildingTypes, BuildingNamePartDto[] nameParts)
+        private BuildingNameRepository CreateInMemoryRepo(BuildingTypeDto[]? buildingTypes, BuildingNamePartDto[]? nameParts)
         {
             var options = new DbContextOptionsBuilder<GeneratorContext>()
                     .UseSqlite("DataSource=:memory:")

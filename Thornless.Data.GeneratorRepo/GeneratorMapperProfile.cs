@@ -39,18 +39,22 @@ namespace Thornless.Data.GeneratorRepo
                 .ForMember(dest => dest.NameParts, src => src.MapFrom(x => ParseBuildingNameParts(x)));
         }
 
-        private string[] ParseJsonArray(string s)
+        private string[] ParseJsonArray(string? s)
         {
+            if (string.IsNullOrWhiteSpace(s))
+                return new string[0];
             return JsonSerializer.Deserialize<string[]>(s, null);
         }
 
-        private Dictionary<string, BuildingNameGroups.NamePartModel[]> ParseBuildingNameParts(IEnumerable<BuildingNamePartDto> nameParts)
+        private Dictionary<string, BuildingNameGroups.NamePartModel[]> ParseBuildingNameParts(IEnumerable<BuildingNamePartDto>? nameParts)
         {
-            var dict = nameParts.GroupBy(x => x.GroupCode)
+            nameParts ??= new BuildingNamePartDto[0];
+            var dict = nameParts.Where(x => !string.IsNullOrWhiteSpace(x.NamePart))
+                                .GroupBy(x => x.GroupCode)
                                 .ToDictionary(key => key.Key,
                                                 value => value.Select(x => new BuildingNameGroups.NamePartModel
                                                                             {
-                                                                                NamePart = x.NamePart,
+                                                                                NamePart = x.NamePart!,
                                                                                 RandomizationWeight = x.RandomizationWeight
                                                                             })
                                                                 .ToArray());

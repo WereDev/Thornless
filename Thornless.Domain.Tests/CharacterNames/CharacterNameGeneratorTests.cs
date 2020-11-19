@@ -31,9 +31,9 @@ namespace Thornless.Domain.Tests.CharacterNames
         [Test]
         public async Task ListAncestries_WhenNull_ReturnsNull()
         {
-            var generator = CreateCharacterNameGenerator((AncestryModel[])null);
+            var generator = CreateCharacterNameGenerator(new AncestryModel[0]);
             var results = await generator.ListAncestries();
-            Assert.Null(results);
+            Assert.True(results.Length == 0);
         }
 
         [Test]
@@ -51,20 +51,20 @@ namespace Thornless.Domain.Tests.CharacterNames
         [TestCase(0)]
         public void ListAncestryOptions_WhenNotValidCount_Throws(int count)
         {
-            var generator = CreateCharacterNameGenerator((AncestryModel[])null);
+            var generator = CreateCharacterNameGenerator(new AncestryModel[0]);
 
             Assert.ThrowsAsync<ArgumentException>(() => generator.GenerateNames(string.Empty, string.Empty, count));
         }
 
         [Test]
-        public async Task GenerateNames_WhenInValidCombo_ReturnsNull()
+        public async Task GenerateNames_WhenInValidCombo_ReturnsEmptyNames()
         {
             var ancestryDetails = CreateAncestryDetailsModel();
             var generator = CreateCharacterNameGenerator(ancestryDetails);
 
             var result = await generator.GenerateNames(_fixture.Create<string>(), _fixture.Create<string>(), 1);
 
-            Assert.IsNull(result);
+            Assert.AreEqual(0, result.Length);
         }
 
         [TestCase(1)]

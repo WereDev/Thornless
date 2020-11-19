@@ -1,3 +1,4 @@
+using System;
 using Moq;
 using NUnit.Framework;
 using Thornless.Domain.Randomization;
@@ -30,23 +31,10 @@ namespace Thornless.Domain.Tests.Randomization
         }
 
         [Test]
-        public void GetRandomItem_WithEmptyArray_ReturnsNull()
+        public void GetRandomItem_WithEmptyArray_Throws()
         {
-            var mockRandomNumberGenerator = new Mock<IRandomNumberGenerator>();
-            var randomItemSelector = new RandomItemSelector(mockRandomNumberGenerator.Object);
-            var item = randomItemSelector.GetRandomItem<WeightedItem>(null);
-            Assert.IsNull(item);
-            mockRandomNumberGenerator.VerifyNoOtherCalls();
-        }
-
-        [Test]
-        public void GetRandomItem_WithNullArray_ReturnsNull()
-        {
-            var mockRandomNumberGenerator = new Mock<IRandomNumberGenerator>();
-            var randomItemSelector = new RandomItemSelector(mockRandomNumberGenerator.Object);
-            var item = randomItemSelector.GetRandomItem<WeightedItem>(null);
-            Assert.IsNull(item);
-            mockRandomNumberGenerator.VerifyNoOtherCalls();
+            var randomItemSelector = new RandomItemSelector(new RandomNumberGenerator());
+            Assert.Throws<ArgumentException>(() => randomItemSelector.GetRandomItem<WeightedItem>(new WeightedItem[0]));
         }
 
         [TestCase(1, 0)]
@@ -75,23 +63,10 @@ namespace Thornless.Domain.Tests.Randomization
         }
 
         [Test]
-        public void GetRandomWeightedItem_WithEmptyArray_ReturnsNull()
+        public void GetRandomWeightedItem_WithEmptyArray_Throws()
         {
-            var mockRandomNumberGenerator = new Mock<IRandomNumberGenerator>();
-            var randomItemSelector = new RandomItemSelector(mockRandomNumberGenerator.Object);
-            var item = randomItemSelector.GetRandomWeightedItem<WeightedItem>(new WeightedItem[0]);
-            Assert.IsNull(item);
-            mockRandomNumberGenerator.VerifyNoOtherCalls();
-        }
-
-        [Test]
-        public void GetRandomWeightedItem_WithNullArray_ReturnsNull()
-        {
-            var mockRandomNumberGenerator = new Mock<IRandomNumberGenerator>();
-            var randomItemSelector = new RandomItemSelector(mockRandomNumberGenerator.Object);
-            var item = randomItemSelector.GetRandomWeightedItem<WeightedItem>(null);
-            Assert.IsNull(item);
-            mockRandomNumberGenerator.VerifyNoOtherCalls();
+            var randomItemSelector = new RandomItemSelector(new RandomNumberGenerator());
+            Assert.Throws<ArgumentException>(() => randomItemSelector.GetRandomWeightedItem<WeightedItem>(new WeightedItem[0]));
         }
     }
 }

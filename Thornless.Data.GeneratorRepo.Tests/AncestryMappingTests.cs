@@ -45,17 +45,17 @@ namespace Thornless.Data.GeneratorRepo.Tests
             var actualAncestry = await repo.GetAncestry(expectedAncestry.Code);
 
             Assert.NotNull(actualAncestry);
-            Assert.AreEqual(expectedAncestry.Copyright, actualAncestry.Copyright);
-            Assert.AreEqual(expectedAncestry.FlavorHtml, actualAncestry.FlavorHtml);
-            Assert.AreEqual(expectedAncestry.LastUpdatedDate, actualAncestry.LastUpdatedDate);
-            Assert.AreEqual(expectedAncestry.Name, actualAncestry.Name);
-            Assert.AreEqual(expectedAncestry.SortOrder, actualAncestry.SortOrder);
+            Assert.AreEqual(expectedAncestry.Copyright, actualAncestry!.Copyright);
+            Assert.AreEqual(expectedAncestry.FlavorHtml, actualAncestry!.FlavorHtml);
+            Assert.AreEqual(expectedAncestry.LastUpdatedDate, actualAncestry!.LastUpdatedDate);
+            Assert.AreEqual(expectedAncestry.Name, actualAncestry!.Name);
+            Assert.AreEqual(expectedAncestry.SortOrder, actualAncestry!.SortOrder);
 
-            Assert.AreEqual(expectedAncestry.NameParts.Count(), actualAncestry.NameParts.Count());
+            Assert.AreEqual(expectedAncestry.NameParts.Count(), actualAncestry!.NameParts.Count());
             for (var i = 0; i < expectedAncestry.NameParts.Count(); i++)
             {
-                var expectedNamePart = expectedAncestry.NameParts[i];
-                var actualNamePart = actualAncestry.NameParts[i];
+                var expectedNamePart = expectedAncestry.NameParts[i]!;
+                var actualNamePart = actualAncestry!.NameParts[i]!;
 
                 Assert.AreEqual(ParseJsonArray(expectedNamePart.NameMeaningsJson), actualNamePart.NameMeanings);
                 Assert.AreEqual(ParseJsonArray(expectedNamePart.NamePartsJson), actualNamePart.NameParts);

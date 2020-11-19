@@ -23,7 +23,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
                                             .ToHashSet();
 
             foreach (var namePart in nameParts)
-                VerifyNamePart(namePart, namePartGroups);
+                VerifyNamePart(namePart, namePartGroups!);
 
             var buildingTypes = await database.BuildingTypes
                                         .Include(x => x.NameFormats)
@@ -32,7 +32,7 @@ namespace Thornless.Data.GeneratorRepo.Tests
             Assert.AreEqual(buildingTypes.Select(x => x.SortOrder).Distinct().Count(), buildingTypes.Count());
 
             foreach (var building in buildingTypes)
-                VerifyBuildingType(building, namePartGroups);
+                VerifyBuildingType(building, namePartGroups!);
         }
 
         private void VerifyNamePart(BuildingNamePartDto namePart, HashSet<string> namePartGroups)

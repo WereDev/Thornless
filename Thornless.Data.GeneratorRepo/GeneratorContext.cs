@@ -23,7 +23,7 @@ namespace Thornless.Data.GeneratorRepo
             if (!optionsBuilder.IsConfigured)
             {
                 var assembly = Assembly.GetExecutingAssembly().Location;
-                var folder = Path.GetDirectoryName(assembly);
+                var folder = Path.GetDirectoryName(assembly) ?? string.Empty;
                 var dbFile = Path.Combine(folder, "data/generator.sqlite");
                 optionsBuilder.UseSqlite($"DataSource={dbFile};Mode=ReadOnly");
             }
@@ -35,8 +35,8 @@ namespace Thornless.Data.GeneratorRepo
                 .HasIndex(x => x.Code);
         }
 
-        internal DbSet<CharacterAncestryDto> CharacterAncestries { get; set; }
-        internal DbSet<BuildingTypeDto> BuildingTypes { get; set; }
-        internal DbSet<BuildingNamePartDto> BuildingNameParts { get; set; }
+        internal DbSet<CharacterAncestryDto> CharacterAncestries => Set<CharacterAncestryDto>();
+        internal DbSet<BuildingTypeDto> BuildingTypes => Set<BuildingTypeDto>();
+        internal DbSet<BuildingNamePartDto> BuildingNameParts => Set<BuildingNamePartDto>();
     }
 }
