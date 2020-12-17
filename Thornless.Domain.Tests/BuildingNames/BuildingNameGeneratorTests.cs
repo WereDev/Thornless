@@ -38,7 +38,7 @@ namespace Thornless.Domain.Tests.BuildingNames
         }
 
         [Test]
-        public async Task GenerateBuildingName_WhenInvalidType_Throws()
+        public void GenerateBuildingName_WhenInvalidType_Throws()
         {
             var generator = CreateBuildingNameGenerator(null, null, null);
 
