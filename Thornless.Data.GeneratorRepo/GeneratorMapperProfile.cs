@@ -5,6 +5,7 @@ using AutoMapper;
 using Thornless.Data.GeneratorRepo.DataModels;
 using Thornless.Domain.BuildingNames.Models;
 using Thornless.Domain.CharacterNames.Models;
+using Thornless.Domain.Settlements.Models;
 
 namespace Thornless.Data.GeneratorRepo
 {
@@ -37,6 +38,10 @@ namespace Thornless.Data.GeneratorRepo
 
             CreateMap<IEnumerable<BuildingNamePartDto>, BuildingNameGroups>()
                 .ForMember(dest => dest.NameParts, src => src.MapFrom(x => ParseBuildingNameParts(x)));
+
+            CreateMap<SettlementTypeDto, SettlementTypeModel>();
+
+            CreateMap<SettlementBuildingDistributionDto, SettlementBuildingModel>();
         }
 
         private string[] ParseJsonArray(string? s)
