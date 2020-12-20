@@ -74,10 +74,10 @@ namespace Thornless.Domain.Tests.Settlements
                 BuildingTypeCode = x.Code,
                 BuildingTypeName = x.Name,
             }).ToArray();
-            
+
             mockBuildingGenerator.Setup(x => x.GenerateBuildingName(It.IsAny<string>()))
                 .Returns<string>((code) => Task.Run(() => buildingResults.FirstOrDefault(x => x.BuildingTypeCode == code)));
-            
+
             var generator = new SettlementGenerator(mockRepo.Object, mockRng.Object);
             var result = await generator.GenerateSettlement(settlement.Code, mockBuildingGenerator.Object);
 
@@ -104,6 +104,17 @@ namespace Thornless.Domain.Tests.Settlements
                 Assert.GreaterOrEqual(resultBuilding.Value.Count, Math.Min(settlmentBuilding.MinBuildings, settlmentBuilding.MaxBuildings));
                 Assert.LessOrEqual(resultBuilding.Value.Count, Math.Max(settlmentBuilding.MinBuildings, settlmentBuilding.MaxBuildings));
             }
+        }
+
+        [Test]
+        public void GenerateSettlement_InvalidCode_Throws()
+        {
+            var mockRng = RandomizationHelper.CreateMockRandomNumberGenerator();
+            var mockRepo = new Mock<ISettlementRepository>();
+            var generator = new SettlementGenerator(mockRepo.Object, mockRng.Object);
+            var mockBuildingGenerator = new Mock<IBuildingNameGenerator>();
+
+            Assert.ThrowsAsync<ArgumentException>(() => generator.GenerateSettlement(_fixture.Create<string>(), mockBuildingGenerator.Object));
         }
     }
 }
