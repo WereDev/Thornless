@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Thornless.Domain.BuildingNames;
 using Thornless.Domain.Settlements.Models;
 
 namespace Thornless.Domain.Settlements
@@ -7,6 +8,6 @@ namespace Thornless.Domain.Settlements
     {
         Task<SettlementTypeModel[]> ListSettlementTypes();
 
-        Task<SettlementResultsModel> GenerateSettlement(string code);
+        Task<SettlementResultsModel> GenerateSettlement(string settlementCode, IBuildingNameGenerator buildingNameGenerator);
     }
 }

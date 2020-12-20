@@ -24,7 +24,7 @@ namespace Thornless.Domain.BuildingNames
 
         public async Task<BuildingNameResultModel> GenerateBuildingName(string buildingTypeCode)
         {
-            var buildingType = await _repo.GetBuildingType(buildingTypeCode);
+            var buildingType = await GetBuildingType(buildingTypeCode);
             if (buildingType == null)
                 throw new ArgumentException($"{buildingTypeCode} is an invalid {nameof(buildingTypeCode)}");
             var nameFormat = _randomItemSelector.GetRandomWeightedItem(buildingType.NameFormats);
@@ -78,6 +78,14 @@ namespace Thornless.Domain.BuildingNames
             return await _memoryCache.GetOrCreateAsync(nameof(BuildingNameGroups), nameGroup =>
             {
                 return _repo.GetBuildingNameGroups();
+            });
+        }
+
+        private async Task<BuildingTypeDetailsModel?> GetBuildingType(string buildingTypeCode)
+        {
+            return await _memoryCache.GetOrCreate($"{nameof(BuildingNameResultModel)}-{buildingTypeCode}", buildingType =>
+            {
+                return _repo.GetBuildingType(buildingTypeCode);
             });
         }
     }

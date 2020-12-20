@@ -7,6 +7,6 @@ namespace Thornless.Domain.Settlements
     {
         Task<SettlementTypeModel[]> ListSettlementTypes();
 
-        Task<SettlementBuildingModel[]> GetSettlement(string ancestryCode);
+        Task<SettlementTypeDetails> GetSettlement(string settlementCode);
     }
 }

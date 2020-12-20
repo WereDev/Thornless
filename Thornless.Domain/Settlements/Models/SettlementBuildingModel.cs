@@ -4,8 +4,6 @@ namespace Thornless.Domain.Settlements.Models
     {
         public int Id { get; set; }
 
-        public int SettlementTypeId { get; set; }
-
         public int BuildingTypeId { get; set; }
 
         public int MinBuildings { get; set; }

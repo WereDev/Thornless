@@ -24,13 +24,13 @@ namespace Thornless.Data.GeneratorRepo
             _mapper = new Mapper(mapperConfig);
         }
 
-        public async Task<SettlementBuildingModel[]> GetSettlement(string settlementCode)
+        public async Task<SettlementTypeDetails> GetSettlement(string settlementCode)
         {
             var data = await _generatorContext.SettlementTypes
                                             .Where(x => x.Code == settlementCode)
                                             .Include(x => x.Buildings)
                                             .FirstOrDefaultAsync();
-            var mapped = _mapper.Map<SettlementBuildingModel[]>(data.Buildings);
+            var mapped = _mapper.Map<SettlementTypeDetails>(data);
             return mapped;
         }
 

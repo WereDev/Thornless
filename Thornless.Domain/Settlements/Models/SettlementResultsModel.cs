@@ -13,6 +13,7 @@ namespace Thornless.Domain.Settlements.Models
 
         public int Population { get; set; }
 
-        public Dictionary<BuildingTypeModel, List<BuildingNameResultModel>> Buildings { get; } = new Dictionary<BuildingTypeModel, List<BuildingNameResultModel>>();        
+        public Dictionary<BuildingTypeModel, List<BuildingNameResultModel>> Buildings { get; }
+            = new Dictionary<BuildingTypeModel, List<BuildingNameResultModel>>();
     }
 }
