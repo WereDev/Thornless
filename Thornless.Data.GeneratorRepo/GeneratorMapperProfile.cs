@@ -41,6 +41,8 @@ namespace Thornless.Data.GeneratorRepo
 
             CreateMap<SettlementTypeDto, SettlementTypeModel>();
 
+            CreateMap<SettlementTypeDto, SettlementTypeDetails>();
+
             CreateMap<SettlementBuildingDistributionDto, SettlementBuildingModel>();
         }
 
