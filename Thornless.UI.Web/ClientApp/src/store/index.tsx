@@ -1,12 +1,14 @@
 import * as AncestryList from './characterNameService';
 import * as BuildingList from './buildingNameService';
+import * as SettlementList from './settlementNameService';
 import * as LayoutState from './layoutService';
 
 // The top-level state object
 export interface ApplicationState {
     characterNames: AncestryList.CharacterNameState | undefined;
     buildingNames: BuildingList.BuildingNameState | undefined;
-    layoutState: LayoutState.LayoutState | undefined; 
+    settlements: SettlementList.SettlementState | undefined;
+    layoutState: LayoutState.LayoutState | undefined;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using
@@ -15,6 +17,7 @@ export interface ApplicationState {
 export const reducers = {
     characterNames: AncestryList.reducer,
     buildingNames: BuildingList.reducer,
+    settlements: SettlementList.reducer,
     layoutState: LayoutState.reducer
 };
 

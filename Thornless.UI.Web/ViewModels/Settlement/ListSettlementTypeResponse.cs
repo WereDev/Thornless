@@ -6,8 +6,6 @@ namespace Thornless.UI.Web.ViewModels.Settlement
 
     public class SettlementType
     {
-      public int Id { get; set; }
-
       public string Code { get; set; } = string.Empty;
 
       public string Name { get; set; } = string.Empty;

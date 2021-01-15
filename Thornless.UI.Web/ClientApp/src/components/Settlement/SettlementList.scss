@@ -1,0 +1,8 @@
+@import "../../shared/theme.scss";
+
+.select-button {
+    & .subscript {
+        font-size: .7rem;
+        padding-top: -20px;
+    }
+}
