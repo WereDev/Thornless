@@ -68,15 +68,12 @@ namespace Thornless.Domain.Tests.Settlements
 
             var mockBuildingGenerator = new Mock<IBuildingNameGenerator>();
             mockBuildingGenerator.Setup(x => x.ListBuildingTypes()).ReturnsAsync(buildingTypes);
-            var buildingResults = buildingTypes.Select(x => new BuildingNameResultModel
-            {
-                BuildingName = _fixture.Create<string>(),
-                BuildingTypeCode = x.Code,
-                BuildingTypeName = x.Name,
-            }).ToArray();
 
             mockBuildingGenerator.Setup(x => x.GenerateBuildingName(It.IsAny<string>()))
-                .Returns<string>((code) => Task.Run(() => buildingResults.FirstOrDefault(x => x.BuildingTypeCode == code)));
+                .Returns<string>((code) => Task.Run(() =>
+                    _fixture.Build<BuildingNameResultModel>()
+                        .With(x => x.BuildingTypeCode, code)
+                        .Create()));
 
             var generator = new SettlementGenerator(mockRepo.Object, mockRng.Object);
             var result = await generator.GenerateSettlement(settlement.Code, mockBuildingGenerator.Object);
