@@ -7,10 +7,10 @@ namespace Thornless.Data.GeneratorRepo.DataModels
     {
         public int CharacterAncestryId { get; set; }
 
-        public string NameSegmentCode { get; set; }
+        public string NameSegmentCode { get; set; } = string.Empty;
 
-        public string NamePartsJson { get; set; }
+        public string NamePartsJson { get; set; } = string.Empty;
 
-        public string NameMeaningsJson { get; set; }
+        public string NameMeaningsJson { get; set; } = string.Empty;
     }
 }

@@ -38,13 +38,11 @@ namespace Thornless.Domain.Tests.BuildingNames
         }
 
         [Test]
-        public async Task GenerateBuildingName_WhenInvalidType_ReturnsNull()
+        public void GenerateBuildingName_WhenInvalidType_Throws()
         {
             var generator = CreateBuildingNameGenerator(null, null, null);
 
-            var results = await generator.GenerateBuildingName(_fixture.Create<string>());
-
-            Assert.IsNull(results);
+            Assert.ThrowsAsync<ArgumentException>(() => generator.GenerateBuildingName(_fixture.Create<string>()));
         }
 
         [Test]
@@ -127,9 +125,9 @@ namespace Thornless.Domain.Tests.BuildingNames
         }
 
         private BuildingNameGenerator CreateBuildingNameGenerator(
-            BuildingTypeModel[] buildingModels,
-            BuildingTypeDetailsModel[] detailsModels,
-            BuildingNameGroups nameGroups)
+            BuildingTypeModel[]? buildingModels,
+            BuildingTypeDetailsModel[]? detailsModels,
+            BuildingNameGroups? nameGroups)
         {
             var mockRepository = new Mock<IBuildingNameRepository>();
 

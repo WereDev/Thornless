@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -21,6 +20,11 @@ const Home = () => (
       <div className="col-md-4 col-12 mt-4 nav-link">
         <NavLink tag={Link} to="/buildingnames">
           Buildings
+        </NavLink>
+      </div>
+      <div className="col-md-4 col-12 mt-4 nav-link">
+        <NavLink tag={Link} to="/settlements">
+          Settlements
         </NavLink>
       </div>
       <div className="col-md-4 col-12 mt-4 nav-link">

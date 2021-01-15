@@ -23,7 +23,7 @@ namespace Thornless.Data.GeneratorRepo
             _mapper = new Mapper(mapperConfig);
         }
 
-        public async Task<AncestryDetailsModel> GetAncestry(string ancestryCode)
+        public async Task<AncestryDetailsModel?> GetAncestry(string ancestryCode)
         {
             var ancestry = await _generatorContext.CharacterAncestries
                                             .Include(x => x.Options)
@@ -39,7 +39,7 @@ namespace Thornless.Data.GeneratorRepo
         {
             var ancestries = await _generatorContext.CharacterAncestries.ToArrayAsync();
             var mapped = _mapper.Map<AncestryModel[]>(ancestries);
-            return mapped;
+            return mapped ?? Array.Empty<AncestryModel>();
         }
     }
 }

@@ -5,6 +5,7 @@ using AutoMapper;
 using Thornless.Data.GeneratorRepo.DataModels;
 using Thornless.Domain.BuildingNames.Models;
 using Thornless.Domain.CharacterNames.Models;
+using Thornless.Domain.Settlements.Models;
 
 namespace Thornless.Data.GeneratorRepo
 {
@@ -37,20 +38,30 @@ namespace Thornless.Data.GeneratorRepo
 
             CreateMap<IEnumerable<BuildingNamePartDto>, BuildingNameGroups>()
                 .ForMember(dest => dest.NameParts, src => src.MapFrom(x => ParseBuildingNameParts(x)));
+
+            CreateMap<SettlementTypeDto, SettlementTypeModel>();
+
+            CreateMap<SettlementTypeDto, SettlementTypeDetails>();
+
+            CreateMap<SettlementBuildingDistributionDto, SettlementBuildingModel>();
         }
 
-        private string[] ParseJsonArray(string s)
+        private string[] ParseJsonArray(string? s)
         {
+            if (string.IsNullOrWhiteSpace(s))
+                return new string[0];
             return JsonSerializer.Deserialize<string[]>(s, null);
         }
 
-        private Dictionary<string, BuildingNameGroups.NamePartModel[]> ParseBuildingNameParts(IEnumerable<BuildingNamePartDto> nameParts)
+        private Dictionary<string, BuildingNameGroups.NamePartModel[]> ParseBuildingNameParts(IEnumerable<BuildingNamePartDto>? nameParts)
         {
-            var dict = nameParts.GroupBy(x => x.GroupCode)
+            nameParts ??= new BuildingNamePartDto[0];
+            var dict = nameParts.Where(x => !string.IsNullOrWhiteSpace(x.NamePart))
+                                .GroupBy(x => x.GroupCode)
                                 .ToDictionary(key => key.Key,
                                                 value => value.Select(x => new BuildingNameGroups.NamePartModel
                                                                             {
-                                                                                NamePart = x.NamePart,
+                                                                                NamePart = x.NamePart!,
                                                                                 RandomizationWeight = x.RandomizationWeight
                                                                             })
                                                                 .ToArray());

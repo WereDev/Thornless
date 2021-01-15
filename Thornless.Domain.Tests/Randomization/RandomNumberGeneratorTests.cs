@@ -31,5 +31,24 @@ namespace Thornless.Domain.Tests.Randomization
             var number = generator.GetRandomInteger(maxValue);
             Assert.AreEqual(1, number);
         }
+
+        [TestCase(5, 8)]
+        [TestCase(0, 2)]
+        public void GetRandomInteger_GivenMinMax_CanReturnAllPossibilities(int minValue, int maxValue)
+        {
+            var numbersFound = new HashSet<int>();
+            var expectedCount = maxValue - minValue + 1;
+
+            var generator = new RandomNumberGenerator();
+
+            while (numbersFound.Count < expectedCount)
+            {
+                var number = generator.GetRandomInteger(minValue, maxValue);
+                Assert.True(number >= minValue);
+                Assert.True(number <= maxValue);
+                if (!numbersFound.Contains(number))
+                    numbersFound.Add(number);
+            }
+        }
     }
 }

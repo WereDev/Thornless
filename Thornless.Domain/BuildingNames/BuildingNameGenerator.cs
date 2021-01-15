@@ -17,19 +17,19 @@ namespace Thornless.Domain.BuildingNames
 
         public BuildingNameGenerator(IBuildingNameRepository repo, IRandomItemSelector randomItemSelector, IMemoryCache cache)
         {
-            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
-            _randomItemSelector = randomItemSelector ?? throw new ArgumentNullException(nameof(randomItemSelector));
-            _memoryCache = cache ?? throw new ArgumentNullException(nameof(cache));
+            _repo = repo;
+            _randomItemSelector = randomItemSelector;
+            _memoryCache = cache;
         }
 
         public async Task<BuildingNameResultModel> GenerateBuildingName(string buildingTypeCode)
         {
-            var buildingType = await _repo.GetBuildingType(buildingTypeCode);
+            var buildingType = await GetBuildingType(buildingTypeCode);
             if (buildingType == null)
-                return null;
-
+                throw new ArgumentException($"{buildingTypeCode} is an invalid {nameof(buildingTypeCode)}");
             var nameFormat = _randomItemSelector.GetRandomWeightedItem(buildingType.NameFormats);
             var nameGroups = await GetBuildingNameGroups();
+
             var buildingName = GenerateBuildingNameFromFormat(nameFormat.NameFormat, nameGroups);
 
             return new BuildingNameResultModel
@@ -78,6 +78,14 @@ namespace Thornless.Domain.BuildingNames
             return await _memoryCache.GetOrCreateAsync(nameof(BuildingNameGroups), nameGroup =>
             {
                 return _repo.GetBuildingNameGroups();
+            });
+        }
+
+        private async Task<BuildingTypeDetailsModel?> GetBuildingType(string buildingTypeCode)
+        {
+            return await _memoryCache.GetOrCreate($"{nameof(BuildingNameResultModel)}-{buildingTypeCode}", buildingType =>
+            {
+                return _repo.GetBuildingType(buildingTypeCode);
             });
         }
     }

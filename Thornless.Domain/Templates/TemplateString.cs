@@ -12,7 +12,7 @@ namespace Thornless.Domain.Templates
 
         public string StringFormat { get; private set; }
 
-        public TemplateField[] TemplateFields { get; private set; }
+        public TemplateField[] TemplateFields { get; private set; } = new TemplateField[0];
 
         private void SetTemplateFields()
         {

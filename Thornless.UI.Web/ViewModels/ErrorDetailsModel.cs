@@ -4,6 +4,6 @@ namespace Thornless.UI.Web.ViewModels
     {
         public int ErrorCode { get; set; }
 
-        public string ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; } = string.Empty;
     }
 }

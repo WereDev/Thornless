@@ -7,6 +7,6 @@ namespace Thornless.Data.GeneratorRepo.DataModels
     {
         public int BuildingTypeId { get; set; }
 
-        public string NameFormat { get; set; }
+        public string NameFormat { get; set; } = string.Empty;
     }
 }

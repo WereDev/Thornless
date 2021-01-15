@@ -13,10 +13,11 @@ namespace Thornless.Domain.Randomization
         }
 
         public T GetRandomWeightedItem<T>(T[] items)
-            where T : IWeightedItem
+            where T : class, IWeightedItem
         {
             if (items == null || items.Length == 0)
-                return default;
+                throw new ArgumentException($"{nameof(items)} is null or empty.");
+
             if (items.Length == 1)
                 return items[0];
 
@@ -33,9 +34,11 @@ namespace Thornless.Domain.Randomization
         }
 
         public T GetRandomItem<T>(T[] items)
+            where T : class
         {
             if (items == null || items.Length == 0)
-                return default;
+                throw new ArgumentException($"{nameof(items)} is null or empty.");
+
             if (items.Length == 1)
                 return items[0];
 

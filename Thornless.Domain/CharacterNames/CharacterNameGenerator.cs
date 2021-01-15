@@ -28,10 +28,10 @@ namespace Thornless.Domain.CharacterNames
             return ancestries;
         }
 
-        public Task<AncestryDetailsModel> ListAncestryOptions(string ancestryCode)
+        public async Task<AncestryDetailsModel> ListAncestryOptions(string ancestryCode)
         {
-            var ancestry = _repo.GetAncestry(ancestryCode);
-            return ancestry;            
+            var ancestry = await _repo.GetAncestry(ancestryCode);
+            return ancestry ?? new AncestryDetailsModel();            
         }
 
         public async Task<CharacterNameResultModel[]> GenerateNames(string ancestryCode, string ancestryOptionCode, int count)
@@ -39,9 +39,12 @@ namespace Thornless.Domain.CharacterNames
             if (count <= 0)
                 throw new ArgumentException("Count must be greater than zero", nameof(count));
             var ancestry = await ListAncestryOptions(ancestryCode);
-            var option = ancestry?.Options.FirstOrDefault(x => x.Code == ancestryOptionCode);
+            if (ancestry == null)
+                return new CharacterNameResultModel[0];
+
+            var option = ancestry.Options.FirstOrDefault(x => x.Code == ancestryOptionCode);
             if (option == null)
-                return null;
+                return new CharacterNameResultModel[0];
 
             var results = new CharacterNameResultModel[count];
 

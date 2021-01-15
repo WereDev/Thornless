@@ -18,5 +18,16 @@ namespace Thornless.Domain.Randomization
 
             return _random.Next(0, maxValue) + 1;
         }
+
+        public int GetRandomInteger(int minValue, int maxValue)
+        {
+            if (minValue == maxValue)
+                return minValue;
+
+            var realMin = Math.Min(minValue, maxValue);
+            var realMax = Math.Max(minValue, maxValue);
+
+            return _random.Next(realMin, realMax + 1);
+        }
     }
 }

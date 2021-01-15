@@ -12,9 +12,9 @@ namespace Thornless.Domain.Templates
             SetFields(fieldTemplate);
         }
 
-        public string FieldTemplate { get; private set; }
+        public string FieldTemplate { get; private set; } = string.Empty;
 
-        public string FieldName { get; private set; }
+        public string FieldName { get; private set; } = string.Empty;
 
         private void SetFields(string fieldTemplate)
         {

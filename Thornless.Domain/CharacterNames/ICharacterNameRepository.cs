@@ -7,6 +7,6 @@ namespace Thornless.Domain.CharacterNames
     {
         Task<AncestryModel[]> ListAncestries();
 
-        Task<AncestryDetailsModel> GetAncestry(string ancestryCode);
+        Task<AncestryDetailsModel?> GetAncestry(string ancestryCode);
     }
 }

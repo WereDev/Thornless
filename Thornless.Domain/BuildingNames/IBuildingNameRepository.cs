@@ -7,7 +7,7 @@ namespace Thornless.Domain.BuildingNames
     {
         Task<BuildingTypeModel[]> ListBuildingTypes();
 
-        Task<BuildingTypeDetailsModel> GetBuildingType(string buildingTypeCode);
+        Task<BuildingTypeDetailsModel?> GetBuildingType(string buildingTypeCode);
 
         Task<BuildingNameGroups> GetBuildingNameGroups();
     }
