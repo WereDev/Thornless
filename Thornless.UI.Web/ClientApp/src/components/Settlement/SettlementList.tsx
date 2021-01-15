@@ -80,39 +80,40 @@ class FetchData extends React.Component<SettlementProps> {
     }
 
     private renderGeneratedSettlement() {
-        return (
-            <div ref={this.generatedColumnRef} className="flex-magic">
-                <div className="d-flex flex-row">
-                    <div className="flex-grow-1">
-                        <h2>Generated Settlement</h2>
-                    </div>
-                    <div className="flex-grow-1 align-self-center text-right">
-                        <button onClick={e => this.goToTop(e)} className="toTopLink">
-                            Back to Top
+        if (this.props?.generatedSettlement) {
+            return (
+                <div ref={this.generatedColumnRef} className="flex-magic">
+                    <div className="d-flex flex-row">
+                        <div className="flex-grow-1">
+                            <h2>Generated Settlement</h2>
+                        </div>
+                        <div className="flex-grow-1 align-self-center text-right">
+                            <button onClick={e => this.goToTop(e)} className="toTopLink">
+                                Back to Top
                  </button>
+                        </div>
+                    </div>
+                    <div className="col-content">
+                        <h3>{this.props?.generatedSettlement?.name}</h3>
+                        <div>Population: {this.props?.generatedSettlement?.population.toLocaleString()}</div>
+                        {this.props?.generatedSettlement?.buildingTypes.map((buildingType: SettlementStore.SettlementBuildingType, index: number) => {
+                            return buildingType.buildings.length > 0 ?
+                                (
+                                    <div key={buildingType.name} className="generator-result-card">
+                                        <h3>{buildingType.name}</h3>
+                                        <blockquote>
+                                            {buildingType.buildings.map((building: SettlementStore.SettlementBuilding, index: number) =>
+                                                <div key={building.buildingName}>{building.buildingName}</div>
+                                            )}
+                                        </blockquote>
+                                    </div>
+                                ) : (null)
+                        }
+                        )}
                     </div>
                 </div>
-                <div className="col-content">
-                    {this.props?.generatedSettlement?.name}
-                     | {this.props?.generatedSettlement?.population.toLocaleString()}
-
-                    {this.props?.generatedSettlement?.buildingTypes.map((buildingType: SettlementStore.SettlementBuildingType, index: number) => {
-                        return buildingType.buildings.length > 0 ?
-                            (
-                                <div key={buildingType.name} className="generator-result-card">
-                                    <h3>{buildingType.name}</h3>
-                                    <blockquote>
-                                        {buildingType.buildings.map((building: SettlementStore.SettlementBuilding, index: number) =>
-                                            <div key={building.buildingName}>{building.buildingName}</div>
-                                        )}
-                                    </blockquote>
-                                </div>
-                            ) : (null)
-                        }
-                    )}
-                </div>
-            </div>
-        )
+            )
+        }
     }
 
     private scrollToColumn(ref: React.RefObject<HTMLDivElement>) {

@@ -43,7 +43,11 @@ namespace Thornless.Domain.Settlements
 
                 for (int i = 0; i < numberToMake; i++)
                 {
-                    buildingList.Add(await buildingNameGenerator.GenerateBuildingName(buildingType.Code));
+                    var building = await buildingNameGenerator.GenerateBuildingName(buildingType.Code);
+                    if (buildingList.Any(x => x.BuildingName == building.BuildingName))
+                        numberToMake--;
+                    else
+                        buildingList.Add(building);
                 }
             }
 
