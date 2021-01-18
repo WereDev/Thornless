@@ -32,7 +32,7 @@
     "@types/reactstrap": "^8.7.2",
     "@typescript-eslint/parser": "^2.34.0",
     "cross-env": "^7.0.3",
-    "eslint": "^7.17.0",
+    "eslint": "^7.18.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-flowtype": "^4.7.0",
     "eslint-plugin-import": "^2.22.1",
