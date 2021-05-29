@@ -31,7 +31,7 @@ class FetchData extends React.Component<LayoutProps> {
                     </div>
                     <div id="footer" className="row p-1">
                         <div className="text-left w-50">
-                            &copy; 2020&nbsp;<a href="//weredev.com" target="_blank" rel="noopener noreferrer">Weredev</a>
+                            &copy; 2020-2021&nbsp;<a href="//weredev.com" target="_blank" rel="noopener noreferrer">Weredev</a>
                         </div>
                         <div className="text-right w-50">
                             {this.props.lastUpdate?.latestBuildDateString ?? ''}
